@@ -579,7 +579,7 @@ class layout2:
         self.update_but = ctk.CTkButton(self.left_frame, text = 'Päivitä', corner_radius = corner_radius, height = root.layout2_left_button_height, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad, font = root.layout2_left_font)
         self.info_table = ctk.CTkTextbox(self.left_frame, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad)
 
-        dbs = [db.strip('.db') for db in os.listdir('C:/Users/lauri/Documents/tap_project3/Databases') if db.endswith('.db')]
+        dbs = [db.strip('.db') for db in os.listdir(PATH+'/Databases') if db.endswith('.db')]
         self.provider_stringvar = tk.StringVar(value=dbs[0])
         self.provider = ctk.CTkOptionMenu(self.mid_frame, corner_radius = corner_radius, width = root.layout2_mid_menu_width, height = root.layout2_mid_menu_height, font = root.layout2_left_font, variable = self.provider_stringvar, values = dbs)
 
