@@ -51,6 +51,30 @@ class TestDataTransformation(unittest.TestCase):
         default_translator3.df = pd.DataFrame(data=dictionary, index=languages).T
         self.assertEqual(default_translator3.get_string('STR_UI_LUO_TARJOUS', Lang.SV), 
                          '[STR_UI_LUO_TARJOUS]')
+    
+    def test_CSVTranslator(self):
+        ##CORRECT DATA
+        csv_translator = CSVTranslator(Lang.FI)
+        self.assertEqual(csv_translator.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.FI), 
+                         'Päivitä tietokanta')
+        self.assertEqual(csv_translator.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.EN), 
+                         'Update database')
+        self.assertEqual(csv_translator.get_string('STR_UI_LUO_TARJOUS', Lang.SV), 
+                         'Skapa erbjudande')
+        
+        ##MISSING DATA
+        csv_translator2 = CSVTranslator(Lang.FI)
+        csv_translator2.df = pd.read_csv('tests/Translations_test.csv', index_col=0)
+        self.assertEqual(csv_translator2.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.FI), 
+                         'Päivitä tietokanta')
+        self.assertEqual(csv_translator2.get_string('STR_UI_ETSI_TUOTTEITA', Lang.SV), 
+                         '[STR_UI_ETSI_TUOTTEITA]')
+        #self.assertEqual(csv_translator2.get_string('STR_UI_LUO_TARJOUS', Lang.SV), 
+        #                 'Skapa erbjudande')
+        
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

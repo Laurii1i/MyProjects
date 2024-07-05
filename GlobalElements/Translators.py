@@ -33,7 +33,12 @@ class DefaultTranslator:
 
         series = self.df.iloc[:,lang]
         str_out = series.loc[keyword]
-        if str_out != '':
+        if type(str_out) == str and (str_out != ''):
             return str_out
         else: 
             return '['+keyword+']'
+
+class CSVTranslator(DefaultTranslator):
+
+    def _create_data_frame(self):
+        return pd.read_csv('GlobalElements/Translations.csv', index_col=0)
