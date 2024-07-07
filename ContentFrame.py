@@ -9,6 +9,7 @@ import pandas as pd
 from image import *
 from BlackHole import BlackHole
 from BasketFrame import BasketFrame
+from GlobalElements.Translators import *
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
@@ -52,13 +53,13 @@ class layout3():
 
         # Buttons into frames
 
-        self.uusi_kori = ctk.CTkButton(self.left_frame, text = 'Uusi Kori', font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = lambda: self.open_question_window('Nimeä kori'))
+        self.uusi_kori = ctk.CTkButton(self.left_frame, text = global_translator.get_string('STR_UI_UUSI_KORI'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = lambda: self.open_question_window('Nimeä kori'))
         self.uusi_kori.place(x = 0, y = root.layout3_left_pady)
 
-        self.aseta_ale = ctk.CTkButton(self.left_frame, text = 'Aseta alennus', font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = self.set_discount)
+        self.aseta_ale = ctk.CTkButton(self.left_frame, text = global_translator.get_string('STR_UI_ASETA_ALENNUS'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = self.set_discount)
         self.aseta_ale.place(x = 0, y = 2*root.layout3_left_pady + root.layout3_left_height)
 
-        self.tallenna = ctk.CTkButton(self.left_frame, text = 'Tallenna sessio', font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height)
+        self.tallenna = ctk.CTkButton(self.left_frame, text = global_translator.get_string('STR_UI_TALLENNA_SESSIO'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height)
         self.tallenna.place(x = 0, y = 3*root.layout3_left_pady + 2*root.layout3_left_height)
 
 
@@ -72,7 +73,7 @@ class layout3():
         self.description = ctk.CTkTextbox(self.middle_middle_frame, height = text_box_height, width = text_box_width, fg_color = self.root.layout3_frame_color, font = ('Helvetica', 17))
         self.description.place(x=0, y = pady)
 
-        self.save_descript = ctk.CTkButton(self.middle_middle_frame, height = text_box_height, width = button_width, text = 'Tallenna\nkuvaus', font = ('Helvetica', 17), command = self.write_description)
+        self.save_descript = ctk.CTkButton(self.middle_middle_frame, height = text_box_height, width = button_width, text = global_translator.get_string('STR_UI_TALLENNA_KUVAUS'), font = ('Helvetica', 17), command = self.write_description)
         self.save_descript.place(x = padx + text_box_width, y = pady)
 
 
@@ -576,7 +577,7 @@ class layout2:
         self.mid_frame = ctk.CTkFrame(self.content_frame, corner_radius=corner_radius, width = root.layout2_middle_width*width, height = height, fg_color = root.layout2_frame_color)
         self.right_frame = ctk.CTkFrame(self.content_frame, corner_radius=corner_radius, width = root.layout2_right_width*width, height = height, fg_color = root.layout2_frame_color)
 
-        self.update_but = ctk.CTkButton(self.left_frame, text = 'Päivitä', corner_radius = corner_radius, height = root.layout2_left_button_height, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad, font = root.layout2_left_font)
+        self.update_but = ctk.CTkButton(self.left_frame, text = global_translator.get_string('STR_UI_PAIVITA'), corner_radius = corner_radius, height = root.layout2_left_button_height, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad, font = root.layout2_left_font)
         self.info_table = ctk.CTkTextbox(self.left_frame, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad)
 
         dbs = [db.strip('.db') for db in os.listdir(PATH+'/Databases') if db.endswith('.db')]
@@ -603,9 +604,9 @@ class layout2:
         self.type_search = ctk.CTkComboBox(self.mid_frame, values = types)
         self.color_search = ctk.CTkComboBox(self.mid_frame, values = colors)
         self.size_search = ctk.CTkComboBox(self.mid_frame, values = sizes)
-        self.add_product = ctk.CTkButton(self.mid_frame, text = 'Lisää Koriin',  width = 150, height = 28, font = ('Helvetica', 15), command = self.add_product)
+        self.add_product = ctk.CTkButton(self.mid_frame, text = global_translator.get_string('STR_UI_LISAA_KORIIN'),  width = 150, height = 28, font = ('Helvetica', 15), command = self.add_product)
         self.filters = [self.name_search, self.type_search, self.color_search, self.size_search]
-        self.search = ctk.CTkButton(self.mid_frame, bg_color = 'yellow', text = 'Hae Tuotteet!', command=self.fill_treeview, width = 150, height = 28, font = ('Helvetica', 15))
+        self.search = ctk.CTkButton(self.mid_frame, bg_color = 'yellow', text = global_translator.get_string('STR_UI_HAE_TUOTTEET'), command=self.fill_treeview, width = 150, height = 28, font = ('Helvetica', 15))
         self.img_label = ctk.CTkLabel(self.right_frame, width = root.layout2_right_width*width - 2*root.layout2_right_pad, height = root.layout2_right_width*width)
         self.info = ctk.CTkLabel(self.right_frame, bg_color = 'blue', width = root.layout2_right_width*width - 2*root.layout2_right_pad, height = 200)
         self.info_label = ctk.CTkLabel(self.mid_frame, text = '', text_color = 'black', font = ('Helvetica', 15))
