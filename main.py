@@ -3,7 +3,7 @@ import customtkinter as ctk
 from MenuBar import MenuBar
 from ContentFrame import ContentFrame
 import os
-from GlobalElements.Translator import *
+from GlobalAssets.Translator import *
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project

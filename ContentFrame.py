@@ -9,7 +9,7 @@ import pandas as pd
 from image import *
 from BlackHole import BlackHole
 from BasketFrame import BasketFrame
-from GlobalElements.Translator import *
+from GlobalAssets.Translator import *
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
