@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
-from GlobalAssets.Translator import *
+from GlobalAssets.Translator import Translator
 
 class MenuBar():
 
