@@ -3,29 +3,29 @@ import customtkinter as ctk
 from MenuBar import MenuBar
 from ContentFrame import ContentFrame
 import os
-from GlobalElements.Translators import *
+from GlobalAssets.Translator import Translator, Lang
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
 
 ctk.set_appearance_mode('dark')
-ctk.ThemeManager.load_theme(PATH+'\\GlobalElements\\custom_theme.json') # kommentoi pois jos haluat käyttää perus customtkinter/assets/themes/blue.json
+ctk.ThemeManager.load_theme(os.path.join(PATH,'GlobalAssets','custom_theme.json'))
+Translator.load_words(os.path.join(PATH,'GlobalAssets','custom_translations.json'))
+Translator.set_default_lang(Lang.FI)
+
 
 class App(ctk.CTk):
-    
+
     def __init__(self):
 
         super().__init__()
-
-        # Initiate language
-        global_translator.set_default_lang(Lang.FI)
 
         # Initiation
 
         self.title('Tap_project3')
         self.dimensions = (1700, 900)
         self.geometry(f'{self.dimensions[0]}x{self.dimensions[1]}')
-        
+
     # @@@@@ SETTINGS @@@@@
         # Geometry settings
 
@@ -40,7 +40,7 @@ class App(ctk.CTk):
 
         # content frame settings
 
-        #layout2 settings
+        # layout2 settings
 
         self.layout2_left_width = 0.15
         self.layout2_middle_width = 0.5
@@ -59,8 +59,7 @@ class App(ctk.CTk):
 
         self.layout2_right_pad = 10
 
-
-        #layout3 settings
+        # layout3 settings
         self.layout3_frame_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
         self.layout3_highlight_color = ctk.ThemeManager.theme["CustomFrameHightlight"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
         self.layout3_left_width = 0.1

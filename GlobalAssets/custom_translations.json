@@ -1,0 +1,40 @@
+{
+    "STR_UI_PAIVITA_TIETOKANTA": {
+      "FI": "Päivitä tietokanta",
+      "SV": "Uppdatera databas",
+      "EN": "Update database"
+    },
+    "STR_UI_ETSI_TUOTTEITA": {
+      "FI": "Etsi Tuotteita",
+      "SV": "Sök for produkter",
+      "EN": "Search products"
+    },
+    "STR_UI_LUO_TARJOUS": {
+      "FI": "Luo Tarjous",
+      "SV": "Skapa erbjudande",
+      "EN": "Create offer"
+    },
+    "STR_UI_PAIVITA": {
+      "FI": "Päivitä",
+      "SV": "",
+      "EN": ""
+    },
+    "STR_UI_HAE_TUOTTEET": {
+      "FI": "Hae Tuotteet!"
+    },
+    "STR_UI_LISAA_KORIIN": {
+      "FI": "Lisää koriin"
+    },
+    "STR_UI_UUSI_KORI": {
+      "FI": "Uusi kori"
+    },
+    "STR_UI_ASETA_ALENNUS": {
+      "FI": "Aseta alennus"
+    },
+    "STR_UI_TALLENNA_SESSIO": {
+      "FI": "Tallenna sessio"
+    },
+    "STR_UI_TALLENNA_KUVAUS": {
+      "FI": "Tallenna\nkuvaus"
+    }
+  }
