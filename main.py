@@ -3,22 +3,21 @@ import customtkinter as ctk
 from MenuBar import MenuBar
 from ContentFrame import ContentFrame
 import os
-from GlobalElements.Translators import *
+from GlobalElements.Translator import *
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
 
 ctk.set_appearance_mode('dark')
-ctk.ThemeManager.load_theme(PATH+'\\GlobalElements\\custom_theme.json') # kommentoi pois jos haluat käyttää perus customtkinter/assets/themes/blue.json
+ctk.ThemeManager.load_theme(os.path.join(PATH,'GlobalAssets','custom_theme.json'))
+Translator.load_words(os.path.join(PATH,'GlobalAssets','custom_translations.json'))
+Translator.set_default_lang(Lang.FI)
 
 class App(ctk.CTk):
     
     def __init__(self):
 
         super().__init__()
-
-        # Initiate language
-        global_translator.set_default_lang(Lang.FI)
 
         # Initiation
 
