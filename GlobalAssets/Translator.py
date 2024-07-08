@@ -22,10 +22,7 @@ class Translator:
     def get_string(cls, keyword: str, lang: Lang = None) -> str:
         if lang is None:
             lang = cls.default_lang
-        try:
-            str_out=cls.words[keyword][lang]
-        except KeyError:
-            str_out = ''
+        str_out=cls.words[keyword][lang]
         if type(str_out) is str and (str_out != ''):
             return str_out
         else:
