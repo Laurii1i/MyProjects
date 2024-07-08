@@ -9,6 +9,7 @@ PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
 
 ctk.set_appearance_mode('dark')
+ctk.ThemeManager.load_theme(PATH+'\\GlobalElements\\custom_theme.json') # kommentoi pois jos haluat käyttää perus customtkinter/assets/themes/blue.json
 
 class App(ctk.CTk):
     
@@ -47,7 +48,7 @@ class App(ctk.CTk):
 
         self.layout2_left_button_pad = 10
         self.layout2_left_button_height = 50
-        self.layout2_frame_color = '#739FA6'
+        self.layout2_frame_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
         self.layout2_left_font = ('Helvetica', 20)
 
         self.layout2_mid_menu_width = 200
@@ -60,8 +61,8 @@ class App(ctk.CTk):
 
 
         #layout3 settings
-        self.layout3_frame_color = '#739FA6'
-        self.layout3_highlight_color = '#75B2BB'
+        self.layout3_frame_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
+        self.layout3_highlight_color = ctk.ThemeManager.theme["CustomFrameHightlight"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
         self.layout3_left_width = 0.1
         self.layout3_middle_width = 0.5
         self.layout3_right_width = 0.4
