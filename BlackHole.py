@@ -2,6 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 import numpy as np
 from image import image
+from GlobalAssets.UIDimensions import UIDimensions
 
 class BlackHole():
 
@@ -159,8 +160,8 @@ class BlackHole():
 
     def move_to(self, final_location, ini_loc): # move to final_location from ini_loc with animation
 
-        substeps = self.root.animation_steps # location points in the animation
-        total_time = self.root.animation_speed # total time for the animation
+        substeps = UIDimensions.get('DIM_UI_MOVEMENT_ANIMATION','ANIMATION_STEPS') # location points in the animation
+        total_time = UIDimensions.get('DIM_UI_MOVEMENT_ANIMATION','ANIMATION_SPEED') # total time for the animation
         time_between_steps = int((total_time / substeps)*1000) # convert to milliseconds for after() function
         vector = np.array(final_location) - np.array(ini_loc) # Vector pointing from init_loc to final_location
         increment = vector/substeps # Create increment vector
