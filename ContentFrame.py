@@ -10,6 +10,7 @@ from image import *
 from BlackHole import BlackHole
 from BasketFrame import BasketFrame
 from GlobalAssets.Translator import Translator
+from GlobalAssets.UIDimensions import UIDimensions
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH) # Root directory of the project
@@ -34,33 +35,61 @@ class layout3():
 
     def __init__(self, parent, content_frame, root):
         
-        width, height = root.dimensions[0], (1-root.menu_bar_rel_h)*root.dimensions[1]
+        width, height = root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*root.dimensions[1]
         self.root = root
         self.parent = parent
         self.content_frame = content_frame
-        self.left_frame = ctk.CTkFrame(content_frame, height = height, width = root.layout3_left_width * width)
+        self.left_frame = ctk.CTkFrame(content_frame, 
+                                       height = height, 
+                                       width = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width)
         corner_radius = 10
-        self.middle_up_frame = ctk.CTkFrame(content_frame, fg_color = root.layout3_frame_color, height = root.layout3_middle_split1 * height, width = root.layout3_middle_width * width, corner_radius = corner_radius)
+        self.middle_up_frame = ctk.CTkFrame(content_frame, 
+                                            fg_color = root.layout3_frame_color, 
+                                            height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT1_FRACTION') * height, 
+                                            width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width, corner_radius = corner_radius)
 
         self.middle_up_frame.images = [] # images are stored here
         self.middle_up_frame.selecting = False # Indicating if this frame's images are being selected
 
-        self.middle_middle_frame = ctk.CTkFrame(content_frame, height = root.layout3_middle_split2 * height, width = root.layout3_middle_width * width)
-        self.middle_bottom_frame = ctk.CTkFrame(content_frame, fg_color = root.layout3_frame_color, height = root.layout3_middle_split3 * height, width = root.layout3_middle_width * width)
-        self.right_frame = ctk.CTkFrame(content_frame, height = height, width = root.layout3_right_width * width)
+        self.middle_middle_frame = ctk.CTkFrame(content_frame, 
+                                                height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT2_FRACTION') * height, 
+                                                width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
+        self.middle_bottom_frame = ctk.CTkFrame(content_frame, 
+                                                fg_color = root.layout3_frame_color, 
+                                                height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT3_FRACTION') * height, 
+                                                width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
+        self.right_frame = ctk.CTkFrame(content_frame, 
+                                        height = height, 
+                                        width = UIDimensions.get('DIM_UI_LAYOUT3','RIGHT_WIDTH_FRACTION') * width)
         self.right_frame.baskets = [] # These are baskets for products in the right most frame
         root.menu_bar.show_basket_button.configure(command = self.set_layout3)
 
         # Buttons into frames
 
-        self.uusi_kori = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_UUSI_KORI'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = lambda: self.open_question_window('Nimeä kori'))
-        self.uusi_kori.place(x = 0, y = root.layout3_left_pady)
+        self.uusi_kori = ctk.CTkButton(self.left_frame, 
+                                       text = Translator.get_string('STR_UI_UUSI_KORI'), 
+                                       font = root.layout3_left_font, 
+                                       width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
+                                       height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
+                                       command = lambda: self.open_question_window('Nimeä kori'))
+        self.uusi_kori.place(x = 0, 
+                             y = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE'))
 
-        self.aseta_ale = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_ASETA_ALENNUS'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height, command = self.set_discount)
-        self.aseta_ale.place(x = 0, y = 2*root.layout3_left_pady + root.layout3_left_height)
+        self.aseta_ale = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_ASETA_ALENNUS'), 
+                                       font = root.layout3_left_font, 
+                                       width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
+                                       height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
+                                       command = self.set_discount)
+        self.aseta_ale.place(x = 0, 
+                             y = 2*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
 
-        self.tallenna = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_TALLENNA_SESSIO'), font = root.layout3_left_font, width = 0.965*(root.layout3_left_width * width), height = root.layout3_left_height)
-        self.tallenna.place(x = 0, y = 3*root.layout3_left_pady + 2*root.layout3_left_height)
+        self.tallenna = ctk.CTkButton(self.left_frame, 
+                                      text = Translator.get_string('STR_UI_TALLENNA_SESSIO'), 
+                                      font = root.layout3_left_font, 
+                                      width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
+                                      height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
+        self.tallenna.place(x = 0, 
+                            y = 3*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE') + 2*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
 
 
         # Middle middle frame
@@ -359,7 +388,7 @@ class layout3():
         width, height = img.size
 
         aspect_ratio = width/height
-        size = self.root.layout3_product_image_size
+        size = UIDimensions.get('DIM_UI_LAYOUT3','PRODUCT_IMAGE_SIZE_ABSOLUTE')
 
         if aspect_ratio > 1: # if figure is wider than higher
             new_width = size
@@ -567,22 +596,45 @@ class layout2:
 
     def __init__(self, parent, content_frame, root):
 
-        width, height = root.dimensions[0], (1-root.menu_bar_rel_h)*root.dimensions[1]
+        width, height = root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*root.dimensions[1]
         corner_radius = 10
         self.parent = parent
         self.root = root
         self.content_frame = content_frame
 
-        self.left_frame = ctk.CTkFrame(self.content_frame, corner_radius=corner_radius, width = root.layout2_left_width*width, height = height)
-        self.mid_frame = ctk.CTkFrame(self.content_frame, corner_radius=corner_radius, width = root.layout2_middle_width*width, height = height, fg_color = root.layout2_frame_color)
-        self.right_frame = ctk.CTkFrame(self.content_frame, corner_radius=corner_radius, width = root.layout2_right_width*width, height = height, fg_color = root.layout2_frame_color)
+        self.left_frame = ctk.CTkFrame(self.content_frame, 
+                                       corner_radius=corner_radius, 
+                                       width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width, 
+                                       height = height)
+        self.mid_frame = ctk.CTkFrame(self.content_frame, 
+                                      corner_radius=corner_radius, 
+                                      width = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width, 
+                                      height = height, 
+                                      fg_color = root.layout2_frame_color)
+        self.right_frame = ctk.CTkFrame(self.content_frame, 
+                                        corner_radius=corner_radius, 
+                                        width = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width, 
+                                        height = height, 
+                                        fg_color = root.layout2_frame_color)
 
-        self.update_but = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_PAIVITA'), corner_radius = corner_radius, height = root.layout2_left_button_height, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad, font = root.layout2_left_font)
-        self.info_table = ctk.CTkTextbox(self.left_frame, width = root.layout2_left_width*width - 2*root.layout2_left_button_pad)
+        self.update_but = ctk.CTkButton(self.left_frame, 
+                                        text = Translator.get_string('STR_UI_PAIVITA'), 
+                                        corner_radius = corner_radius, 
+                                        height = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_HEIGHT_ABSOLUTE'), 
+                                        width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'), 
+                                        font = root.layout2_left_font)
+        self.info_table = ctk.CTkTextbox(self.left_frame, 
+                                         width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'))
 
         dbs = [db.strip('.db') for db in os.listdir(PATH+'/Databases') if db.endswith('.db')]
         self.provider_stringvar = tk.StringVar(value=dbs[0])
-        self.provider = ctk.CTkOptionMenu(self.mid_frame, corner_radius = corner_radius, width = root.layout2_mid_menu_width, height = root.layout2_mid_menu_height, font = root.layout2_left_font, variable = self.provider_stringvar, values = dbs)
+        self.provider = ctk.CTkOptionMenu(self.mid_frame, 
+                                          corner_radius = corner_radius, 
+                                          width = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_WIDTH_ABSOLUTE'), 
+                                          height = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE'), 
+                                          font = root.layout2_left_font, 
+                                          variable = self.provider_stringvar, 
+                                          values = dbs)
 
         self.read_db(f'{PATH}/Databases/{dbs[0]}.db')
 
@@ -594,21 +646,40 @@ class layout2:
 
         self.scroll_bar = tk.Scrollbar(self.mid_frame, orient="vertical", command=self.tree.yview)
         
-        self.scroll_bar.place_configure(height= root.layout2_treeview_height)
+        self.scroll_bar.place_configure(height= UIDimensions.get('DIM_UI_LAYOUT2','TREEVIEW_HEIGHT_ABSOLUTE'))
         self.tree.configure(yscrollcommand = self.scroll_bar.set)
 
         types = self.find_product_types('type')
         colors = self.find_product_types('color')
         sizes = self.find_product_types('size')
         self.name_search = ctk.CTkEntry(self.mid_frame)
-        self.type_search = ctk.CTkComboBox(self.mid_frame, values = types)
-        self.color_search = ctk.CTkComboBox(self.mid_frame, values = colors)
-        self.size_search = ctk.CTkComboBox(self.mid_frame, values = sizes)
-        self.add_product = ctk.CTkButton(self.mid_frame, text = Translator.get_string('STR_UI_LISAA_KORIIN'),  width = 150, height = 28, font = ('Helvetica', 15), command = self.add_product)
+        self.type_search = ctk.CTkComboBox(self.mid_frame, 
+                                           values = types)
+        self.color_search = ctk.CTkComboBox(self.mid_frame, 
+                                            values = colors)
+        self.size_search = ctk.CTkComboBox(self.mid_frame, 
+                                           values = sizes)
+        self.add_product = ctk.CTkButton(self.mid_frame, 
+                                         text = Translator.get_string('STR_UI_LISAA_KORIIN'), 
+                                         width = 150, 
+                                         height = 28, 
+                                         font = ('Helvetica', 15), 
+                                         command = self.add_product)
         self.filters = [self.name_search, self.type_search, self.color_search, self.size_search]
-        self.search = ctk.CTkButton(self.mid_frame, bg_color = 'yellow', text = Translator.get_string('STR_UI_HAE_TUOTTEET'), command=self.fill_treeview, width = 150, height = 28, font = ('Helvetica', 15))
-        self.img_label = ctk.CTkLabel(self.right_frame, width = root.layout2_right_width*width - 2*root.layout2_right_pad, height = root.layout2_right_width*width)
-        self.info = ctk.CTkLabel(self.right_frame, bg_color = 'blue', width = root.layout2_right_width*width - 2*root.layout2_right_pad, height = 200)
+        self.search = ctk.CTkButton(self.mid_frame, 
+                                    bg_color = 'yellow', 
+                                    text = Translator.get_string('STR_UI_HAE_TUOTTEET'), 
+                                    command=self.fill_treeview, 
+                                    width = 150, 
+                                    height = 28, 
+                                    font = ('Helvetica', 15))
+        self.img_label = ctk.CTkLabel(self.right_frame, 
+                                      width = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE'), 
+                                      height = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width)
+        self.info = ctk.CTkLabel(self.right_frame, 
+                                 bg_color = 'blue', 
+                                 width = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE'), 
+                                 height = 200)
         self.info_label = ctk.CTkLabel(self.mid_frame, text = '', text_color = 'black', font = ('Helvetica', 15))
         root.menu_bar.search_button.configure(command = self.set_layout2)
 
@@ -618,27 +689,40 @@ class layout2:
 
         clear_frame(self.content_frame)
 
-        width, height = self.root.dimensions[0], (1-self.root.menu_bar_rel_h)*self.root.dimensions[1]
+        width, height = self.root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*self.root.dimensions[1]
 
         self.left_frame.place(x = 0, y = 0)
-        self.mid_frame.place(x = self.root.layout2_left_width*width, y = 0)
-        self.right_frame.place(x = self.root.layout2_left_width*width + 10 + self.root.layout2_middle_width*width, y = 0)
+        self.mid_frame.place(x = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width, 
+                             y = 0)
+        self.right_frame.place(x = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width + 10 + UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width, 
+                               y = 0)
 
-        self.update_but.place(x = 10, y = 10)
-        self.info_table.place(x = self.root.layout2_left_button_pad, y = 2*self.root.layout2_left_button_pad + self.root.layout2_left_button_height)
-        self.provider.place(x = (self.root.layout2_middle_width*width)/2 - self.root.layout2_mid_menu_width/2, y = 10)
+        self.update_but.place(x = 10, 
+                              y = 10)
+        self.info_table.place(x = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'), 
+                              y = 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_HEIGHT_ABSOLUTE'))
+        self.provider.place(x = (UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width)/2 - UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_WIDTH_ABSOLUTE')/2, 
+                            y = 10)
 
-        #self.name_search.place(x = 10, y = self.root.layout2_mid_menu_height + 50)
-        #self.type_search.place(x = 200, y = self.root.layout2_mid_menu_height + 50)
-        #self.color_search.place(x = 390, y = self.root.layout2_mid_menu_height + 50)
-        self.search.place(x = self.root.layout2_middle_width*width - 172, y = self.root.layout2_mid_menu_height + 65)
+        #self.name_search.place(x = 10, y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 50)
+        #self.type_search.place(x = 200, y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 50)
+        #self.color_search.place(x = 390, y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 50)
+        self.search.place(x = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width - 172, 
+                          y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
 
-        self.tree.place(x = 10, y = self.root.layout2_mid_menu_height + self.root.layout2_buttons_height + 60, height = self.root.layout2_treeview_height)
-        self.info_label.place(x = 10, y = self.root.layout2_mid_menu_height + self.root.layout2_buttons_height + 65 + self.root.layout2_treeview_height)
-        self.add_product.place(x = self.root.layout2_middle_width*width - 172, y = self.root.layout2_mid_menu_height + self.root.layout2_buttons_height + 65 + self.root.layout2_treeview_height)
-        self.scroll_bar.place(x = self.root.layout2_middle_width  * width - 20, y = self.root.layout2_mid_menu_height + self.root.layout2_buttons_height + 60)
-        self.img_label.place(x = self.root.layout2_right_pad, y = self.root.layout2_right_pad)
-        self.info.place(x = self.root.layout2_right_pad, y = 2*self.root.layout2_right_pad + self.root.layout2_right_width*width)
+        self.tree.place(x = 10, 
+                        y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','BUTTONS_HEIGHT_ABSOLUTE') + 60, 
+                        height = UIDimensions.get('DIM_UI_LAYOUT2','TREEVIEW_HEIGHT_ABSOLUTE'))
+        self.info_label.place(x = 10, 
+                              y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','BUTTONS_HEIGHT_ABSOLUTE') + 65 + UIDimensions.get('DIM_UI_LAYOUT2','TREEVIEW_HEIGHT_ABSOLUTE'))
+        self.add_product.place(x = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width - 172, 
+                               y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','BUTTONS_HEIGHT_ABSOLUTE') + 65 + UIDimensions.get('DIM_UI_LAYOUT2','TREEVIEW_HEIGHT_ABSOLUTE'))
+        self.scroll_bar.place(x = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')  * width - 20, 
+                              y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','BUTTONS_HEIGHT_ABSOLUTE') + 60)
+        self.img_label.place(x = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE'), 
+                             y = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE'))
+        self.info.place(x = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE'), 
+                        y = 2*UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_PAD_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width)
 
     def find_product_types(self, type):
         
@@ -665,27 +749,31 @@ class layout2:
         self.size_search.set('')    
 
         cols = self.tree["columns"]
-        length = (self.root.layout2_middle_width*self.root.dimensions[0]-40)/(len(cols)+1)
+        length = (UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*self.root.dimensions[0]-40)/(len(cols)+1)
         
-        self.name_search.place(x = 10, y = self.root.layout2_mid_menu_height + 65)
+        self.name_search.place(x = 10, 
+                               y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
         self.name_search.configure(width = length-10)
 
         index = 1
 
         for col in cols[:-1]:
             if col == 'Tyyppi':
-                self.type_search.place(x = 10 + index * length, y = self.root.layout2_mid_menu_height + 65)
+                self.type_search.place(x = 10 + index * length, 
+                                       y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
                 self.type_search.configure(width = length-10)
                 index = index + 1
 
             elif col == 'Väri':    
-                self.color_search.place(x = 10 + index * length, y = self.root.layout2_mid_menu_height + 65)
+                self.color_search.place(x = 10 + index * length, 
+                                        y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
                 self.color_search.configure(width = length-10)
                 index = index + 1
 
             elif col == 'Koko':
 
-                self.size_search.place(x = 10 + index * length, y = self.root.layout2_mid_menu_height + 65)
+                self.size_search.place(x = 10 + index * length, 
+                                       y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
                 self.size_search.configure(width = length-10)
                 index = index + 1
 
@@ -695,7 +783,7 @@ class layout2:
 
         self.db = pd.read_csv(f'{PATH}/Databases/{db_name}.db')
 
-        W = self.root.layout2_middle_width* self.root.dimensions[0] - 30
+        W = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')* self.root.dimensions[0] - 30
 
         self.columns = list(self.db.columns)
 
