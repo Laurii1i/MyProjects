@@ -102,9 +102,7 @@ class image():
             placements.append(i*increment+ini_loc)
 
         for i, pos in enumerate(placements):
-
             x,y = pos[0], pos[1]
-
             def place_label(x=x, y=y): # Define wrapper
                 self.label.place(x = x, y = y)
 

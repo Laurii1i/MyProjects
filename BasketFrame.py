@@ -2,7 +2,6 @@ import tkinter as tk
 import os
 import customtkinter as ctk
 from PIL import Image, ImageTk
-from image import *
 import numpy as np
 
 class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
