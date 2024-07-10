@@ -42,7 +42,12 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
                 self.positions.append((self.dislocation[0] + w_jump*i, self.dislocation[1] + h_jump*j))
 
         # Initialize ctk.CTkFrame 
-        super().__init__(parent, width = self.width, height = self.height, fg_color = self.root.layout3_frame_color, border_width = border_width, corner_radius = corner_radius)
+        super().__init__(parent,
+                         width = self.width,
+                         height = self.height,
+                         fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"],
+                         border_width = border_width,
+                         corner_radius = corner_radius)
 
         self.place(x = self.position[0], y = self.position[1])
 

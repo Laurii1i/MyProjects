@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from MenuBar import MenuBar
 from ContentFrame import ContentFrame
-
+from GlobalAssets.UIDimensions import UIDimensions
 
 class App(ctk.CTk):
 
@@ -11,30 +11,10 @@ class App(ctk.CTk):
 
         # Initiation
 
-        self.title('Tap_project3')
-        self.dimensions = (1700, 900)
-        self.geometry(f'{self.dimensions[0]}x{self.dimensions[1]}')
+        self.title(UIDimensions.get('MAIN_APP','TITLE'))
+        self.geometry(f'{UIDimensions.get('MAIN_APP','X')}x{UIDimensions.get('MAIN_APP','Y')}')
 
     # @@@@@ SETTINGS @@@@@
-
-        # Menu bar font size and type and button width
-
-        self.menu_bar_font_size = 20
-        self.menu_bar_font = 'Helvetica'
-
-        # content frame settings
-
-        # layout2 settings
-
-        self.layout2_frame_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
-        self.layout2_left_font = ('Helvetica', 20)
-
-        # layout3 settings
-        self.layout3_frame_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
-        self.layout3_highlight_color = ctk.ThemeManager.theme["CustomFrameHightlight"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]
-
-        # Font for the left buttons
-        self.layout3_left_font = ('Helvetica', 20)
 
         # Create upper menu-bar
 
