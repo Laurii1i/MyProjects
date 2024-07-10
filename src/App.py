@@ -3,6 +3,7 @@ from MenuBar import MenuBar
 from ContentFrame import ContentFrame
 from GlobalAssets.UIDimensions import UIDimensions
 
+
 class App(ctk.CTk):
 
     def __init__(self):
@@ -11,8 +12,8 @@ class App(ctk.CTk):
 
         # Initiation
 
-        self.title(UIDimensions.get('MAIN_APP','TITLE'))
-        self.geometry(f'{UIDimensions.get('MAIN_APP','X')}x{UIDimensions.get('MAIN_APP','Y')}')
+        self.title(UIDimensions.get('MAIN_APP', 'TITLE'))
+        self.geometry(f'{UIDimensions.get('MAIN_APP', 'X')}x{UIDimensions.get('MAIN_APP', 'Y')}')
 
     # @@@@@ SETTINGS @@@@@
 
