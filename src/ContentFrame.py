@@ -35,7 +35,9 @@ class layout3():
 
     def __init__(self, parent, content_frame, root):
         
-        width, height = root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*root.dimensions[1]
+        width = UIDimensions.get('MAIN_APP','X')
+        height = (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*UIDimensions.get('MAIN_APP','Y')
+        layout3_left_font = (UIDimensions.get('DIM_UI_LAYOUT3','FONT'), UIDimensions.get('DIM_UI_LAYOUT3','FONT_SIZE'))
         self.root = root
         self.parent = parent
         self.content_frame = content_frame
@@ -44,7 +46,7 @@ class layout3():
                                        width = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width)
         corner_radius = 10
         self.middle_up_frame = ctk.CTkFrame(content_frame, 
-                                            fg_color = root.layout3_frame_color, 
+                                            fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], 
                                             height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT1_FRACTION') * height, 
                                             width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width, corner_radius = corner_radius)
 
@@ -55,7 +57,7 @@ class layout3():
                                                 height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT2_FRACTION') * height, 
                                                 width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
         self.middle_bottom_frame = ctk.CTkFrame(content_frame, 
-                                                fg_color = root.layout3_frame_color, 
+                                                fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], 
                                                 height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT3_FRACTION') * height, 
                                                 width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
         self.right_frame = ctk.CTkFrame(content_frame, 
@@ -68,7 +70,7 @@ class layout3():
 
         self.uusi_kori = ctk.CTkButton(self.left_frame, 
                                        text = Translator.get_string('STR_UI_UUSI_KORI'), 
-                                       font = root.layout3_left_font, 
+                                       font = layout3_left_font, 
                                        width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
                                        height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
                                        command = lambda: self.open_question_window('Nimeä kori'))
@@ -76,7 +78,7 @@ class layout3():
                              y = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE'))
 
         self.aseta_ale = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_ASETA_ALENNUS'), 
-                                       font = root.layout3_left_font, 
+                                       font = layout3_left_font, 
                                        width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
                                        height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
                                        command = self.set_discount)
@@ -85,7 +87,7 @@ class layout3():
 
         self.tallenna = ctk.CTkButton(self.left_frame, 
                                       text = Translator.get_string('STR_UI_TALLENNA_SESSIO'), 
-                                      font = root.layout3_left_font, 
+                                      font = layout3_left_font, 
                                       width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
                                       height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
         self.tallenna.place(x = 0, 
@@ -99,7 +101,11 @@ class layout3():
         button_width = 75
         padx = 10
         pady = 5
-        self.description = ctk.CTkTextbox(self.middle_middle_frame, height = text_box_height, width = text_box_width, fg_color = self.root.layout3_frame_color, font = ('Helvetica', 17))
+        self.description = ctk.CTkTextbox(self.middle_middle_frame,
+                                          height = text_box_height,
+                                          width = text_box_width,
+                                          fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"],
+                                          font = ('Helvetica', 17))
         self.description.place(x=0, y = pady)
 
         self.save_descript = ctk.CTkButton(self.middle_middle_frame, height = text_box_height, width = button_width, text = Translator.get_string('STR_UI_TALLENNA_KUVAUS'), font = ('Helvetica', 17), command = self.write_description)
@@ -153,7 +159,8 @@ class layout3():
         self.middle_bottom_frame.discount_label = ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25))
 
             # Product image label (large image)
-        self.middle_bottom_frame.product_label = tk.Label(self.middle_bottom_frame, bg= self.root.layout3_frame_color)
+        self.middle_bottom_frame.product_label = tk.Label(self.middle_bottom_frame, bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode])
+        #TODO: voisko täs tehä joku self.middle_bottom_frame.product_label.configure(bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])?
 
     def set_layout3(self):
 
@@ -596,8 +603,10 @@ class layout2:
 
     def __init__(self, parent, content_frame, root):
 
-        width, height = root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*root.dimensions[1]
+        width = UIDimensions.get('MAIN_APP','X')
+        height = (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*UIDimensions.get('MAIN_APP','Y')
         corner_radius = 10
+        layout2_left_font = (UIDimensions.get('DIM_UI_LAYOUT2','PAIVITA_FONT'), UIDimensions.get('DIM_UI_LAYOUT2','PAIVITA_FONT_SIZE'))
         self.parent = parent
         self.root = root
         self.content_frame = content_frame
@@ -610,19 +619,19 @@ class layout2:
                                       corner_radius=corner_radius, 
                                       width = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*width, 
                                       height = height, 
-                                      fg_color = root.layout2_frame_color)
+                                      fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])
         self.right_frame = ctk.CTkFrame(self.content_frame, 
                                         corner_radius=corner_radius, 
                                         width = UIDimensions.get('DIM_UI_LAYOUT2','RIGHT_WIDTH_FRACTION')*width, 
                                         height = height, 
-                                        fg_color = root.layout2_frame_color)
+                                        fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])
 
         self.update_but = ctk.CTkButton(self.left_frame, 
                                         text = Translator.get_string('STR_UI_PAIVITA'), 
                                         corner_radius = corner_radius, 
                                         height = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_HEIGHT_ABSOLUTE'), 
                                         width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'), 
-                                        font = root.layout2_left_font)
+                                        font = layout2_left_font)
         self.info_table = ctk.CTkTextbox(self.left_frame, 
                                          width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'))
 
@@ -632,7 +641,7 @@ class layout2:
                                           corner_radius = corner_radius, 
                                           width = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_WIDTH_ABSOLUTE'), 
                                           height = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE'), 
-                                          font = root.layout2_left_font, 
+                                          font = layout2_left_font, 
                                           variable = self.provider_stringvar, 
                                           values = dbs)
 
@@ -689,7 +698,8 @@ class layout2:
 
         clear_frame(self.content_frame)
 
-        width, height = self.root.dimensions[0], (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*self.root.dimensions[1]
+        width = UIDimensions.get('MAIN_APP','X')
+        height = (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*UIDimensions.get('MAIN_APP','Y')
 
         self.left_frame.place(x = 0, y = 0)
         self.mid_frame.place(x = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width, 
@@ -749,7 +759,7 @@ class layout2:
         self.size_search.set('')    
 
         cols = self.tree["columns"]
-        length = (UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*self.root.dimensions[0]-40)/(len(cols)+1)
+        length = (UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')*UIDimensions.get('MAIN_APP','X')-40)/(len(cols)+1)
         
         self.name_search.place(x = 10, 
                                y = UIDimensions.get('DIM_UI_LAYOUT2','MID_MENU_HEIGTH_ABSOLUTE') + 65)
@@ -783,7 +793,7 @@ class layout2:
 
         self.db = pd.read_csv(os.path.join(PATH,'..','Databases',f'{db_name}.db'))
 
-        W = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')* self.root.dimensions[0] - 30
+        W = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')* UIDimensions.get('MAIN_APP','X') - 30
 
         self.columns = list(self.db.columns)
 
@@ -991,7 +1001,8 @@ class ContentFrame():
 
     def __init__(self, root):
         
-        window_width, window_height = root.dimensions
+        window_width = UIDimensions.get('MAIN_APP','X')
+        window_height = UIDimensions.get('MAIN_APP','Y')
         self.root = root
 
         self.content_frame = ctk.CTkFrame(root, height=0.95*window_height, width = 1*window_width)

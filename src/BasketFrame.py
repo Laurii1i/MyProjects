@@ -1,8 +1,6 @@
-import tkinter as tk
-import os
 import customtkinter as ctk
-from PIL import Image, ImageTk
 import numpy as np
+
 
 class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
 
@@ -13,7 +11,7 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
         self.position = position
         self.index = index
         self.black_hole = black_hole
-        
+
         self.parent_layout = parent
         self.products = []
 
@@ -23,7 +21,7 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
         self.selecting = False # Indicating that this frame's image are being selected
 
         # Variabel for dislocating the images to avoid moving onto the rounded corners
-        displacement = corner_radius - (corner_radius - border_width)/np.sqrt(2) 
+        displacement = corner_radius - (corner_radius - border_width) / np.sqrt(2) 
         self.parent = parent # Connect to parent frame
         self.images = [] # initialize empty list for product images
 
@@ -31,18 +29,23 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
 
         self.positions = []
 
-        h_jump = int((self.height - 2*(border_width + displacement))/4) # Four rows
-        w_jump = int((self.width - 2*(border_width + displacement))/5) # Five columns -> max 4x5 = 20 items per basket
+        h_jump = int((self.height - 2*(border_width + displacement)) / 4) # Four rows
+        w_jump = int((self.width - 2*(border_width + displacement)) / 5) # Five columns -> max 4x5 = 20 items per basket
 
         self.spacing = (w_jump, h_jump) # horizontal & vertical gap in pixels between figures
         self.dislocation = (border_width + displacement, border_width + displacement)
 
-        for j in range(0,4):
-            for i in range(0,5):
+        for j in range(0, 4):
+            for i in range(0, 5):
                 self.positions.append((self.dislocation[0] + w_jump*i, self.dislocation[1] + h_jump*j))
 
-        # Initialize ctk.CTkFrame 
-        super().__init__(parent, width = self.width, height = self.height, fg_color = self.root.layout3_frame_color, border_width = border_width, corner_radius = corner_radius)
+        # Initialize ctk.CTkFrame
+        super().__init__(parent,
+                         width = self.width,
+                         height = self.height,
+                         fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"],
+                         border_width = border_width,
+                         corner_radius = corner_radius)
 
         self.place(x = self.position[0], y = self.position[1])
 
