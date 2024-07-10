@@ -1,8 +1,8 @@
-import tkinter as tk
 import customtkinter as ctk
 import numpy as np
 from image import image
 from GlobalAssets.UIDimensions import UIDimensions
+
 
 class BlackHole():
 
@@ -12,25 +12,35 @@ class BlackHole():
         self.width = 75
         self.fontsize = 20
         self.position = position
-        self.index = index 
+        self.index = index
         self.parent_layout = parent_layout
-    
+
         self.type = type
 
-        if type == 'sink': # Make delete button larger
+        if type == 'sink':  # Make delete button larger
             self.height = 60
             b_width = 0
             text_col = 'white'
         else:
-            self.height = 40 
-            b_width = 3   
+            self.height = 40
+            b_width = 3
             text_col = 'black'
 
-        self.button = ctk.CTkButton(parent, text = text, width = self.width, height = self.height, font = ('Helvetica', self.fontsize), corner_radius = 10, fg_color = color, border_width = b_width, text_color = text_col, border_color = '#052329')
-        self.button.place(x = position[0], y = position[1])
+        self.button = ctk.CTkButton(parent,
+                                    text=text,
+                                    width=self.width,
+                                    height=self.height,
+                                    font=('Helvetica', self.fontsize),
+                                    corner_radius=10,
+                                    fg_color=color,
+                                    border_width=b_width,
+                                    text_color=text_col,
+                                    border_color='#052329')
+        self.button.place(x=position[0],
+                          y=position[1])
 
         root.after(5, func = self.resize)
-        self.enlarged = False # Variable indicating if the black hole is enlarged or not
+        self.enlarged = False  # Variable indicating if the black hole is enlarged or not
 
         self.button.bind("<ButtonPress-1>", self.on_start_drag)
         self.button.bind("<ButtonRelease-1>", self.on_release)
@@ -39,11 +49,13 @@ class BlackHole():
 
     def resize(self):
         if self.button.winfo_reqwidth() > self.width:
-            self.button.configure(font = ('Helvetica', self.fontsize-1))
-            self.fontsize = self.fontsize -1
-            self.root.after(5, func = self.resize)
+            self.button.configure(font=('Helvetica',
+                                        self.fontsize-1))
+            self.fontsize=self.fontsize -1
+            self.root.after(5, func=self.resize)
         return
-    def event_is_in(self, event_loc): # Returns true if event is located inside the black hole, false else
+
+    def event_is_in(self, event_loc):  # Returns true if event is located inside the black hole, false else
         x,y = event_loc
 
         x_left = self.button.winfo_rootx()
