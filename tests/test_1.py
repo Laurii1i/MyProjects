@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+import customtkinter as ctk
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from main import *
@@ -17,7 +18,7 @@ class TestDataTransformation(unittest.TestCase):
         self.assertEqual(Lang.SV, 'SV')
         self.assertEqual(Lang.EN, 'EN')
 
-    def test_DefaultTranslator(self):
+    def test_Translator(self):
         ##CORRECT DATA
         self.assertEqual(Translator.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.FI), 
                          'Päivitä tietokanta')
@@ -46,6 +47,9 @@ class TestDataTransformation(unittest.TestCase):
         
         with self.assertRaises(KeyError):
             Translator.get_string('STR_UI_HAE_TUOTTEET', Lang.SV)
+    
+    def test_custom_theme(self):
+        self.assertEqual(ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], ["#EAF2F8", "#739FA6"])
 
 if __name__ == '__main__':
     unittest.main()
