@@ -26,7 +26,7 @@ class Translator:
         if type(str_out) is str and (str_out != ''):
             return str_out
         else:
-            return '['+keyword+']'
+            return '[' + keyword + ']'
 
     @classmethod
     def set_default_lang(cls, lang: Lang):

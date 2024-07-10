@@ -1,4 +1,3 @@
-from tkinter import *
 import customtkinter as ctk
 from MenuBar import MenuBar
 from ContentFrame import ContentFrame
@@ -40,6 +39,6 @@ class App(ctk.CTk):
         # Create upper menu-bar
 
         self.menu_bar = MenuBar(self)
-        
+
         # set content frame under the menu bar
         self.content_frame = ContentFrame(self)
