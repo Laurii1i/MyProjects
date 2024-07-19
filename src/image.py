@@ -36,7 +36,7 @@ class image():
             new_height = side_length
             new_width = aspect_ratio * side_length
 
-        resized_image =  self.original_image.resize((int(new_width), int(new_height)),Image.ANTIALIAS) # Resize image
+        resized_image =  self.original_image.resize((int(new_width), int(new_height)),Image.Resampling.LANCZOS) # Resize image
         self.photo = ImageTk.PhotoImage(resized_image)
         self.label = tk.Label(self.frame,
                               image=self.photo,

@@ -404,7 +404,7 @@ class layout3():
             new_height = size
             new_width = aspect_ratio * size
 
-        resized_image =  img.resize((int(new_width), int(new_height)),Image.ANTIALIAS) # Resize image
+        resized_image =  img.resize((int(new_width), int(new_height)),Image.Resampling.LANCZOS) # Resize image
         self.product_photo = ImageTk.PhotoImage(resized_image)
         self.middle_bottom_frame.product_label.configure(width = size, height = size, image = self.product_photo)
         self.middle_bottom_frame.product_label.place(x = 10, y = 10) # place the label into coordinates of self.position 
@@ -980,7 +980,7 @@ class layout2:
                     new_width = self.img_label.winfo_width()
                     new_height = int((1/aspect_ratio) * new_width)
                     
-                resized_image = image.resize((new_width, new_height), Image.ANTIALIAS)
+                resized_image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
                 self.ctk_image = ctk.CTkImage(light_image=resized_image, dark_image=resized_image, size = (new_width, new_height))
 
                 self.img_label.configure(image = self.ctk_image)
