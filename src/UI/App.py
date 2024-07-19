@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from MenuBar import MenuBar
+from UI.MenuBar import MenuBar
 from UI.ContentFrame import ContentFrame
 from GlobalAssets.UIDimensions import UIDimensions
 
