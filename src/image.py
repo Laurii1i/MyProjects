@@ -3,7 +3,7 @@ import customtkinter as ctk
 import numpy as np
 from PIL import Image, ImageTk
 import os
-from BasketFrame import BasketFrame
+from UI.BasketFrame import BasketFrame
 import time
 from GlobalAssets.UIDimensions import UIDimensions
 

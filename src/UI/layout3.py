@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import tkinter as tk
 from BlackHole import BlackHole
-from BasketFrame import BasketFrame
+from UI.BasketFrame import BasketFrame
 from PIL import Image, ImageTk
 from GlobalAssets.Translator import Translator
 from GlobalAssets.UIDimensions import UIDimensions
