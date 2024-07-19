@@ -48,7 +48,8 @@ class layout3():
         self.middle_up_frame = ctk.CTkFrame(content_frame, 
                                             fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], 
                                             height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT1_FRACTION') * height, 
-                                            width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width, corner_radius = corner_radius)
+                                            width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width,
+                                            corner_radius = corner_radius)
 
         self.middle_up_frame.images = [] # images are stored here
         self.middle_up_frame.selecting = False # Indicating if this frame's images are being selected
