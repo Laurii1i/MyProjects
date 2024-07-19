@@ -337,7 +337,7 @@ class layout2:
 #image(self.middle_up_frame, position, index, path, self, side_length = 100, root = self.root, discount = 20, product_data = ['HanaX', '900€', 'Chrome']))
             datas = {attributes[i]: data[i] for i in range(len(attributes)) if attributes[i] in ('name', 'size', 'color', 'price', 'number', 'webpage')}
 
-            img_frame = self.root.content_frame.layout3.middle_up_frame
+            img_frame = self.root.content_frame.luo_tarjous.middle_up_frame
             index = len(img_frame.images)
             position = img_frame.positions[index]
 
@@ -360,7 +360,7 @@ class layout2:
             else:
                 print('Image not found!')
                 return        
-            img_frame.images.append(image(img_frame, position = position, index = index, path = path, parent_layout = self.root.content_frame.layout3, side_length = 100, root = self.root, discount = 0, product_data = datas))
+            img_frame.images.append(image(img_frame, position = position, index = index, path = path, parent_layout = self.root.content_frame.luo_tarjous, side_length = 100, root = self.root, discount = 0, product_data = datas))
         
         if len(rows) != 1:
             self.info_label.configure(text = f'{len(rows)} tuotetta lisättiin koriin.')

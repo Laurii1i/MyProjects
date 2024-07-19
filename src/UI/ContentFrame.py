@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from image import *
-from UI.layout3 import layout3
+from UI.LuoTarjous import LuoTarjous
 from UI.layout2 import layout2
 
 class ContentFrame():
@@ -16,6 +16,6 @@ class ContentFrame():
 
         # Tarjouksen luontiin vaadittavat widgetit
 
-        self.layout3 = layout3(self, self.content_frame, root)
+        self.luo_tarjous = LuoTarjous(self, self.content_frame, root)
         self.layout2 = layout2(self, self.content_frame, root)
 

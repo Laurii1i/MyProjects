@@ -23,68 +23,68 @@ def clear_frame(frame):
                 # Handle the case when widget has no geometry manager
                 pass
 
-class layout3():
+class LuoTarjous():
 
     def __init__(self, parent, content_frame, root):
         
         width = UIDimensions.get('MAIN_APP','X')
         height = (1-UIDimensions.get('DIM_UI_MENU_BAR','HEIGHT_FRACTION'))*UIDimensions.get('MAIN_APP','Y')
-        layout3_left_font = (UIDimensions.get('DIM_UI_LAYOUT3','FONT'), UIDimensions.get('DIM_UI_LAYOUT3','FONT_SIZE'))
+        luo_tarjous_left_font = (UIDimensions.get('DIM_UI_LUO_TARJOUS','FONT'), UIDimensions.get('DIM_UI_LUO_TARJOUS','FONT_SIZE'))
         self.root = root
         self.parent = parent
         self.content_frame = content_frame
         self.left_frame = ctk.CTkFrame(content_frame, 
                                        height = height, 
-                                       width = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width)
+                                       width = UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_WIDTH_FRACTION') * width)
         corner_radius = 10
         self.middle_up_frame = ctk.CTkFrame(content_frame, 
                                             fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], 
-                                            height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT1_FRACTION') * height, 
-                                            width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width,
+                                            height = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_SPLIT1_FRACTION') * height, 
+                                            width = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_WIDTH_FRACTION') * width,
                                             corner_radius = corner_radius)
 
         self.middle_up_frame.images = [] # images are stored here
         self.middle_up_frame.selecting = False # Indicating if this frame's images are being selected
 
         self.middle_middle_frame = ctk.CTkFrame(content_frame, 
-                                                height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT2_FRACTION') * height, 
-                                                width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
+                                                height = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_SPLIT2_FRACTION') * height, 
+                                                width = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_WIDTH_FRACTION') * width)
         self.middle_bottom_frame = ctk.CTkFrame(content_frame, 
                                                 fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"], 
-                                                height = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_SPLIT3_FRACTION') * height, 
-                                                width = UIDimensions.get('DIM_UI_LAYOUT3','MIDDLE_WIDTH_FRACTION') * width)
+                                                height = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_SPLIT3_FRACTION') * height, 
+                                                width = UIDimensions.get('DIM_UI_LUO_TARJOUS','MIDDLE_WIDTH_FRACTION') * width)
         self.right_frame = ctk.CTkFrame(content_frame, 
                                         height = height, 
-                                        width = UIDimensions.get('DIM_UI_LAYOUT3','RIGHT_WIDTH_FRACTION') * width)
+                                        width = UIDimensions.get('DIM_UI_LUO_TARJOUS','RIGHT_WIDTH_FRACTION') * width)
         self.right_frame.baskets = [] # These are baskets for products in the right most frame
-        root.menu_bar.show_basket_button.configure(command = self.set_layout3)
+        root.menu_bar.show_basket_button.configure(command = self.set_layout)
 
         # Buttons into frames
 
         self.uusi_kori = ctk.CTkButton(self.left_frame, 
                                        text = Translator.get_string('STR_UI_UUSI_KORI'), 
-                                       font = layout3_left_font, 
-                                       width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
-                                       height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
+                                       font = luo_tarjous_left_font, 
+                                       width = 0.965*(UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_WIDTH_FRACTION') * width), 
+                                       height = UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'), 
                                        command = lambda: self.open_question_window('Nimeä kori'))
         self.uusi_kori.place(x = 0, 
-                             y = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE'))
+                             y = UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_PADY_ABSOLUTE'))
 
         self.aseta_ale = ctk.CTkButton(self.left_frame, text = Translator.get_string('STR_UI_ASETA_ALENNUS'), 
-                                       font = layout3_left_font, 
-                                       width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
-                                       height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'), 
+                                       font = luo_tarjous_left_font, 
+                                       width = 0.965*(UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_WIDTH_FRACTION') * width), 
+                                       height = UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'), 
                                        command = self.set_discount)
         self.aseta_ale.place(x = 0, 
-                             y = 2*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE') + UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
+                             y = 2*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_PADY_ABSOLUTE') + UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'))
 
         self.tallenna = ctk.CTkButton(self.left_frame, 
                                       text = Translator.get_string('STR_UI_TALLENNA_SESSIO'), 
-                                      font = layout3_left_font, 
-                                      width = 0.965*(UIDimensions.get('DIM_UI_LAYOUT3','LEFT_WIDTH_FRACTION') * width), 
-                                      height = UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
+                                      font = luo_tarjous_left_font, 
+                                      width = 0.965*(UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_WIDTH_FRACTION') * width), 
+                                      height = UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'))
         self.tallenna.place(x = 0, 
-                            y = 3*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_PADY_ABSOLUTE') + 2*UIDimensions.get('DIM_UI_LAYOUT3','LEFT_HEIGHT_ABSOLUTE'))
+                            y = 3*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_PADY_ABSOLUTE') + 2*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'))
 
 
         # Middle middle frame
@@ -155,7 +155,7 @@ class layout3():
         self.middle_bottom_frame.product_label = tk.Label(self.middle_bottom_frame, bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode])
         #TODO: voisko täs tehä joku self.middle_bottom_frame.product_label.configure(bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])?
 
-    def set_layout3(self):
+    def set_layout(self):
 
         clear_frame(self.content_frame)
         self.left_frame.grid(row = 0, column = 0, rowspan = 3, padx = 10)
@@ -388,7 +388,7 @@ class layout3():
         width, height = img.size
 
         aspect_ratio = width/height
-        size = UIDimensions.get('DIM_UI_LAYOUT3','PRODUCT_IMAGE_SIZE_ABSOLUTE')
+        size = UIDimensions.get('DIM_UI_LUO_TARJOUS','PRODUCT_IMAGE_SIZE_ABSOLUTE')
 
         if aspect_ratio > 1: # if figure is wider than higher
             new_width = size
