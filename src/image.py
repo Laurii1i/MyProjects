@@ -40,7 +40,7 @@ class image():
         self.photo = ImageTk.PhotoImage(resized_image)
         self.label = tk.Label(self.frame,
                               image=self.photo,
-                              bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"],
+                              bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode], # TODO: keksi joku parempi ratkaisu
                               width = side_length,
                               height = side_length)
         self.label.place(x = self.position[0], y = self.position[1]) # place the label into coordinates of self.position 
@@ -254,14 +254,14 @@ class image():
 
         if not self.selected:
             self.selected = True # state variable to selected
-            self.label.configure(bg = ctk.ThemeManager.theme["CustomFrameHightlight"]["fg_color"])  # background to light blue to indicate that
+            self.label.configure(bg = ctk.ThemeManager.theme["CustomFrameHightlight"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode])  # background to light blue to indicate that
 
     def de_select_image(self):
 
         if self.selected:
 
             self.selected = False # state variable to de-selected
-            self.label.configure(bg = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"]) # background to light yellow to indicate that
+            self.label.configure(bg = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode]) # background to light yellow to indicate that
     
     def is_outside(self, location):
 
