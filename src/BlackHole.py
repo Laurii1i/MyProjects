@@ -39,7 +39,7 @@ class BlackHole():
         self.button.place(x=position[0],
                           y=position[1])
 
-        root.after(5, func = self.resize)
+        #root.after(5, func = self.resize)
         self.enlarged = False  # Variable indicating if the black hole is enlarged or not
 
         self.button.bind("<ButtonPress-1>", self.on_start_drag)
