@@ -635,7 +635,7 @@ class layout2:
         self.info_table = ctk.CTkTextbox(self.left_frame, 
                                          width = UIDimensions.get('DIM_UI_LAYOUT2','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_LAYOUT2','LEFT_BUTTON_PAD_ABSOLUTE'))
 
-        dbs = [db.strip('.db') for db in os.listdir(os.path.join(PATH,'..','Databases')) if db.endswith('.db')]
+        dbs = [db.strip('.db') for db in os.listdir(os.path.join(PATH,'Databases')) if db.endswith('.db')]
         self.provider_stringvar = tk.StringVar(value=dbs[0])
         self.provider = ctk.CTkOptionMenu(self.mid_frame, 
                                           corner_radius = corner_radius, 
@@ -645,7 +645,7 @@ class layout2:
                                           variable = self.provider_stringvar, 
                                           values = dbs)
 
-        self.read_db(os.path.join(PATH,'..','Databases',f'{dbs[0]}.db'))
+        self.read_db(os.path.join(PATH,'Databases',f'{dbs[0]}.db'))
 
         style = Style(root)
         style.theme_use("clam")
@@ -791,7 +791,7 @@ class layout2:
 
         db_name = self.provider_stringvar.get()
 
-        self.db = pd.read_csv(os.path.join(PATH,'..','Databases',f'{db_name}.db'))
+        self.db = pd.read_csv(os.path.join(PATH,'Databases',f'{db_name}.db'))
 
         W = UIDimensions.get('DIM_UI_LAYOUT2','MIDDLE_WIDTH_FRACTION')* UIDimensions.get('MAIN_APP','X') - 30
 
