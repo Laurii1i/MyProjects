@@ -55,7 +55,8 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
         self.title_label = ctk.CTkLabel(parent, text = title, font = ('Helvetica', 16), text_color = 'black', fg_color = '#C2D8DC', height = 7, width = self.label_width, corner_radius= 10)
         self.title_entry = ctk.CTkEntry(parent, font = ('Helvetica', 16), text_color = 'black', fg_color = '#C2D8DC', height = 7, width = self.label_width, corner_radius = 0)
 
-        self.title_label.place(x = self.position[0] + (self.width/2) - (self.label_width/2), y = self.position[1] - self.label_h)
+        self.title_label.place(x = self.position[0] + (self.width / 2) - (self.label_width / 2),
+                               y = self.position[1] - self.label_h)
 
         self.title_label.bind("<Button-1>", self.change_name)
 
@@ -69,9 +70,10 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
 
     def finish_name_change(self, event):
 
-        name = self.title_entry.get()    
+        name = self.title_entry.get()
         self.title_entry.place_forget()
-        self.title_label.place(x = self.position[0] + (self.width/2) - (self.label_width/2), y = self.position[1] - self.label_h)
+        self.title_label.place(x = self.position[0] + (self.width / 2) - (self.label_width / 2),
+                               y = self.position[1] - self.label_h)
         self.title_label.configure(text = name)
         self.black_hole.button.configure(text = name)
         self.root.unbind('<Button-1>')

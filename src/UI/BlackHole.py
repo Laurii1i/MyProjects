@@ -44,26 +44,24 @@ class BlackHole():
 
         self.button.bind("<ButtonPress-1>", self.on_start_drag)
         self.button.bind("<ButtonRelease-1>", self.on_release)
-        
+
         self.button.bind("<B1-Motion>", self.on_drag)
 
     def resize(self):
         if self.button.winfo_reqwidth() > self.width:
-            self.button.configure(font=('Helvetica',
-                                        self.fontsize-1))
-            self.fontsize=self.fontsize -1
+            self.button.configure(font=('Helvetica', self.fontsize - 1))
+            self.fontsize=self.fontsize - 1
             self.root.after(5, func=self.resize)
         return
 
     def event_is_in(self, event_loc):  # Returns true if event is located inside the black hole, false else
-        x,y = event_loc
+        x, y = event_loc
 
         x_left = self.button.winfo_rootx()
         x_right = x_left + self.button.winfo_width()
 
         y_up = self.button.winfo_rooty()
         y_down = y_up + self.button.winfo_height()
-        
 
         if (x > x_left and x < x_right) and (y > y_up and y < y_down):
             return True
