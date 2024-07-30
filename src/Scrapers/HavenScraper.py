@@ -77,10 +77,10 @@ class HavenScraper(CommonScraper):
                     price = data.split('EUR')[-1].strip()
                     db_dict['name'].append(name)
                     db_dict['type'].append('Lamppu')
-                    db_dict['color'].append('')
-                    db_dict['size'].append('')
+                    db_dict['color'].append(' ')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(lighting)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info+f'. Placement: {placement}')
@@ -121,35 +121,33 @@ class HavenScraper(CommonScraper):
                 #    print(f'Haven: Uusi kuva ladattiin "{name}.png".\n')  
 
                 data = big_img.find_all("div")[-1].get_text()
-                size = data.split('PRICE')[0].strip('\n').strip('\r')
-                colors = info.split('\n')[:2]
+                colors = data.split('\n')[:2]
+
                 colors = [col.strip('\r') for col in colors]
-                colors = [col.split('/') for col in colors]
+                colors = [col.split('⁄') for col in colors]
                 final_colors = []
                 for color in colors:
-                    col = color[0]
-                    try:
-                        first, second = col.split('⁄')[:2]
-                        final_colors.append(first)
-                        final_colors.append(second)
-                    except:
-                        final_colors.append(col)
+
+                    for subcolor in color:
+                        if subcolor == '':
+                            continue
+                        final_colors.append(subcolor)
 
                 price = data.split('EUR')[-1].strip()
                 size = data.split('\n')[2]
-                size = ''.join(size.split(' ')[1:]).strip('\r')
+                size = ' '.join(size.split(' ')[1:]).strip('\r')
                 
                 for color in final_colors:   
-                    
+
                     db_dict['name'].append(name)
                     db_dict['type'].append('Kahva')
                     db_dict['color'].append(color)
                     db_dict['size'].append(size)
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(knobs)
                     db_dict['webpage'].append('Haven')
-                    db_dict['info'].append('')
+                    db_dict['info'].append(' ')
         else:
             print(f'Sivulle {knobs} ei päästy. Response status code {response.status_code}.\n')
         #print(pd.DataFrame(db_dict).iloc[-1])
@@ -186,20 +184,21 @@ class HavenScraper(CommonScraper):
                 data = [i.strip('\r') for i in data]
                 
                 info = data[0]
+
                 colors = data[1].split('⁄')
 
                 for color in colors:
-                    if color in info[2]:
-                        price = info[2].split('⁄')[0].split('EUR')[-1].strip()
+                    if color in data[2]:
+                        price = data[2].split('⁄')[0].split('EUR')[-1].strip()
                     else:
-                        price = info[3].split('⁄')[0].split('EUR')[-1].strip()    
+                        price = data[3].split('⁄')[0].split('EUR')[-1].strip()    
                     
                     db_dict['name'].append(name)
                     db_dict['type'].append('Hana')
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(faucets)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)
@@ -238,9 +237,9 @@ class HavenScraper(CommonScraper):
                     db_dict['name'].append(name)
                     db_dict['type'].append('Tulppa')
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(faucets)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)
@@ -297,12 +296,12 @@ class HavenScraper(CommonScraper):
                     db_dict['name'].append(name)
                     db_dict['type'].append('Sisätila')
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(interiors)
                     db_dict['webpage'].append('Haven')
-                    db_dict['info'].append('')
+                    db_dict['info'].append(' ')
         else:
             print(f'Sivulle {interiors} ei päästy. Response status code {response.status_code}.\n')     
 
@@ -344,10 +343,10 @@ class HavenScraper(CommonScraper):
                 db_dict['color'].append(color)
                 db_dict['size'].append(size)
                 db_dict['price'].append(price)
-                db_dict['number'].append('')
+                db_dict['number'].append(' ')
                 db_dict['url'].append(wall_cabinet)
                 db_dict['webpage'].append('Haven')
-                db_dict['info'].append('')
+                db_dict['info'].append(' ')
                 
                 image_src = image.find('img').get('src')
                 img = requests.get(base+image_src)
@@ -402,10 +401,10 @@ class HavenScraper(CommonScraper):
                 db_dict['color'].append(color)
                 db_dict['size'].append(size)
                 db_dict['price'].append(price)
-                db_dict['number'].append('')
+                db_dict['number'].append(' ')
                 db_dict['url'].append(high_cabinet)
                 db_dict['webpage'].append('Haven')
-                db_dict['info'].append('')
+                db_dict['info'].append(' ')
         
                 image_src = image.find('img').get('src')
                 img = requests.get(base+image_src)
@@ -419,6 +418,7 @@ class HavenScraper(CommonScraper):
 
         try:
             response  = requests.get(mirror_cabinet)
+
         except:
             print(f'Haven: Yhteys katkaistu {mirror_cabinet}. Datanhaku ei onnistu.\n') 
             return  
@@ -469,7 +469,7 @@ class HavenScraper(CommonScraper):
                         db_dict['color'].append(color)
                         db_dict['size'].append(size)
                         db_dict['price'].append(price)
-                        db_dict['number'].append('')
+                        db_dict['number'].append(' ')
                         db_dict['url'].append(mirror_cabinet)
                         db_dict['webpage'].append('Haven')
                         db_dict['info'].append(info)
@@ -502,7 +502,23 @@ class HavenScraper(CommonScraper):
 
             for image in images:
                 
-                name = image.find("strong").get_text()        
+                header = image.find("strong").get_text().split('—')  
+
+                if len(header) == 2:
+                    name, color = header
+                else:
+                    try:
+                        name, color = header[0].split('370')
+                    except:
+                        name, color = header[0].split('–')        
+                name.strip()
+                color.strip()
+                if 'FRAME' in color:
+                    color = color.split('FRAME')[-1].strip()
+   
+                if color in ['SQUARE', 'OVAL']:
+                    color = ' ' 
+ 
                 image_src = image.find('img').get('src')
                 img = requests.get(base+image_src)
                 if name not in existing_images:
@@ -520,14 +536,20 @@ class HavenScraper(CommonScraper):
                     info = info + '. ' + data[1].split('MM,')[-1]
                 else:
                     size = data[1]   
+   
+                if name == 'M4⁄LIGHT':
+                    size = ' '
+                    tyyppi = 'Lamppu'
+                    color = 'MATTE BLACK'
+                else:
+                    tyyppi = 'Peili'  
 
-                    
                 db_dict['name'].append(name)
-                db_dict['type'].append('Peili')
-                db_dict['color'].append('')
+                db_dict['type'].append(tyyppi)
+                db_dict['color'].append(color)
                 db_dict['size'].append(size)
                 db_dict['price'].append(price)
-                db_dict['number'].append('')
+                db_dict['number'].append(' ')
                 db_dict['url'].append(mirror)
                 db_dict['webpage'].append('Haven')
                 db_dict['info'].append(info)
@@ -575,12 +597,14 @@ class HavenScraper(CommonScraper):
                     info = ' '.join(data[:2])
                     price = data[2].split('EUR')[-1].strip()
 
+                    tyyppi = 'Lavuaari' if 'PORCE' in name else 'H3-Kaappi'
+
                     db_dict['name'].append(name)
-                    db_dict['type'].append('H3-Kaappi')
+                    db_dict['type'].append(tyyppi)
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H3_1)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)  
@@ -599,16 +623,16 @@ class HavenScraper(CommonScraper):
                     sizes = ['600 MM', '800 MM']   
 
                 for size in sizes: 
-                    duals = 'DUAL SINKS.' if size == '1400 MM' else ''  
+                    duals = 'DUAL SINKS.' if size == '1400 MM' else ' '  
                     depth = '465 MM' if name == 'PORCELAIN P2⁄60—140' else '405 MM'
                     info = duals +f'Depth {depth}. THICKNESS 15 MM. PRICE INCLUDED IN H3-CABINETS. 35 MM MIXER COMPAITIBILITY'
-                    price = ''
+                    price = ' '
                     db_dict['name'].append(name)
                     db_dict['type'].append('H3-Kaappi')
-                    db_dict['color'].append('')
+                    db_dict['color'].append(' ')
                     db_dict['size'].append(size)
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H3_1)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info) 
@@ -661,14 +685,17 @@ class HavenScraper(CommonScraper):
                     data = [i.strip('\r') for i in data]
                     
                     info = ' '.join(data[:2])
+                    info = info.replace('HADLE', 'HANDLE')
                     price = data[2].split('EUR')[-1].strip()
 
+                    tyyppi = 'Lavuaari' if 'PORCE' in name else 'H3-Kaappi'
+
                     db_dict['name'].append(name)
-                    db_dict['type'].append('H3-Kaappi')
+                    db_dict['type'].append(tyyppi)
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H3_2)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)  
@@ -726,20 +753,20 @@ class HavenScraper(CommonScraper):
                     colo2 = [colo2.strip()] 
                     colors = colo1 + colo2
                 else:
-                    colors = ['']
+                    colors = [' ']
                 for size in sizes:
                     for color in colors:
 
-                        duals = 'DUAL SINKS.' if size == '1415' else ''  
+                        duals = 'DUAL SINKS.' if size == '1415' else ' '  
                         depth = '465 MM'
                         info = duals +f'Depth {depth}. PRICE INCLUDED IN H2-CABINETS. 35 MM MIXER COMPAITIBILITY'
-                        price = ''
+                        price = ' '
                         db_dict['name'].append(name)
-                        db_dict['type'].append('H2-Kaappi')
+                        db_dict['type'].append('Lavuaari')
                         db_dict['color'].append(color)
                         db_dict['size'].append(size + ' MM')
                         db_dict['price'].append(price)
-                        db_dict['number'].append('')
+                        db_dict['number'].append(' ')
                         db_dict['url'].append(H2)
                         db_dict['webpage'].append('Haven')
                         db_dict['info'].append(info)
@@ -771,7 +798,8 @@ class HavenScraper(CommonScraper):
 
                 for color in colors:
 
-                    name = image.find("strong").get_text().split('—')[0]   
+                    name = image.find("strong").get_text().split('—')[0]  
+
                     #if '/' in name:
                     #    name = name.replace('/','⁄')   
                     #image_src = image.find('img').get('src')
@@ -779,16 +807,16 @@ class HavenScraper(CommonScraper):
                     data = image.find_all("div")[-1].get_text().split('\n')
                     data = [i.strip('\r') for i in data]
                     
-                    info = data[0]
+                    info = 'H2-SERIES WITH MIRROR CABINET. '+data[0]
                     price = data[1].split('EUR')[-1].strip()
                     price = price.split(' ')[-1]
 
-                    db_dict['name'].append(name)
-                    db_dict['type'].append('H3-Kaappi')
+                    db_dict['name'].append(f'{name} + CABINET')
+                    db_dict['type'].append('H2-Kaappi')
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H2_MC)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)  
@@ -831,16 +859,16 @@ class HavenScraper(CommonScraper):
                     data = image.find_all("div")[-1].get_text().split('\n')
                     data = [i.strip('\r') for i in data]
                     
-                    info = data[0]
+                    info = 'H2-SERIES WITH MIRROR. ' + data[0]
                     price = data[1].split('EUR')[-1].strip()
                     price = price.split(' ')[-1]
 
-                    db_dict['name'].append(name)
-                    db_dict['type'].append('H3-Kaappi')
+                    db_dict['name'].append(f'{name} + MIRROR')
+                    db_dict['type'].append('H2-Kaappi')
                     db_dict['color'].append(color)
-                    db_dict['size'].append('')
+                    db_dict['size'].append(' ')
                     db_dict['price'].append(price)
-                    db_dict['number'].append('')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H2_M)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)  
@@ -883,10 +911,10 @@ class HavenScraper(CommonScraper):
 
                     db_dict['name'].append(name)
                     db_dict['type'].append('Peili')
-                    db_dict['color'].append('')
+                    db_dict['color'].append(' ')
                     db_dict['size'].append(f'{size} x {size2}')
-                    db_dict['price'].append('')
-                    db_dict['number'].append('')
+                    db_dict['price'].append(' ')
+                    db_dict['number'].append(' ')
                     db_dict['url'].append(H2_M)
                     db_dict['webpage'].append('Haven')
                     db_dict['info'].append(info)
@@ -896,5 +924,5 @@ class HavenScraper(CommonScraper):
         self.scraped_database = pd.DataFrame(db_dict)
 
 if __name__ == '__main__':
-    tapwell_scraper = HavenScraper()
-    tapwell_scraper.run()
+    Haven_scraper = HavenScraper()
+    Haven_scraper.run()

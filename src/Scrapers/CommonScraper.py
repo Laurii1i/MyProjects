@@ -66,6 +66,12 @@ class CommonScraper:
 
 
 
+    def remove_duplicates(self):
+
+        if not hasattr(self, 'scraped_database') and not hasattr(self, 'existing_database'):
+            print('You need to have Scraped and Existing databases loaded into memory to compare them.')
+            return
+        self.scraped_database = self.scraped_database.drop_duplicates(subset = ['name', 'type', 'color', 'size', 'price', 'info'])
 
     def load_database(self):
         
