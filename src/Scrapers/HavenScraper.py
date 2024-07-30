@@ -15,10 +15,10 @@ class HavenScraper(CommonScraper):
     def __init__(self):
 
         super().__init__()
-        self.website_name = 'Haven'
+        self.company_name = 'Haven'
         self.website_url = 'https://haven-system.com'
 
-    def run(self):
+    def scrape(self) -> pd.DataFrame:
 
         base = self.website_url
 
@@ -921,7 +921,7 @@ class HavenScraper(CommonScraper):
         else:
             print(f'Sivulle {H2_M} ei päästy. Response status code {response.status_code}.\n') 
 
-        self.scraped_database = pd.DataFrame(db_dict)
+        return pd.DataFrame(db_dict)
 
 if __name__ == '__main__':
     Haven_scraper = HavenScraper()
