@@ -13,7 +13,10 @@ class App(ctk.CTk):
         # Initiation
 
         self.title(UIDimensions.get('MAIN_APP', 'TITLE'))
-        self.geometry(f'{UIDimensions.get('MAIN_APP', 'X')}x{UIDimensions.get('MAIN_APP', 'Y')}')
+
+        x = UIDimensions.get('MAIN_APP', 'X')
+        y = UIDimensions.get('MAIN_APP', 'Y')
+        self.geometry(f'{x}x{y}')
 
     # @@@@@ SETTINGS @@@@@
 
