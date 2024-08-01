@@ -5,6 +5,7 @@ from PIL import Image
 from GlobalAssets.Translator import Translator
 from GlobalAssets.UIDimensions import UIDimensions
 from image import *
+import webbrowser
 import pandas as pd
 
 def clear_frame(frame):
@@ -70,16 +71,11 @@ class EtsiTuotteita:
 
         self.read_db(os.path.join(PATH,'Databases',f'{dbs[0]}.db'))
 
+        self.db_name = dbs[0]
         style = Style(root)
         style.theme_use("clam")
         style.configure("Treeview", background="light yellow", 
                 fieldbackground="light yellow", foreground="black")
-        self.tree = Treeview(self.mid_frame)
-
-        self.scroll_bar = tk.Scrollbar(self.mid_frame, orient="vertical", command=self.tree.yview)
-        
-        self.scroll_bar.place_configure(height= UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
-        self.tree.configure(yscrollcommand = self.scroll_bar.set)
 
         types = self.find_product_types('type')
         colors = self.find_product_types('color')
@@ -99,19 +95,20 @@ class EtsiTuotteita:
                                          command = self.add_product)
         self.filters = [self.name_search, self.type_search, self.color_search, self.size_search]
         self.search = ctk.CTkButton(self.mid_frame, 
-                                    bg_color = 'yellow', 
                                     text = Translator.get_string('STR_UI_HAE_TUOTTEET'), 
                                     command=self.fill_treeview, 
                                     width = 150, 
                                     height = 28, 
                                     font = ('Helvetica', 15))
         self.img_label = ctk.CTkLabel(self.right_frame, 
+                                      text = '',
                                       width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'), 
                                       height = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width)
         self.info = ctk.CTkLabel(self.right_frame, 
-                                 bg_color = 'blue', 
                                  width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'), 
-                                 height = 200)
+                                 height = 200,
+                                 font = ('Helvetica', 15),
+                                 wraplength = 400)
         self.info_label = ctk.CTkLabel(self.mid_frame, text = '', text_color = 'black', font = ('Helvetica', 15))
         root.menu_bar.search_button.configure(command = self.set_layout)
 
@@ -143,15 +140,11 @@ class EtsiTuotteita:
         self.search.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')*width - 172, 
                           y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + 65)
 
-        self.tree.place(x = 10, 
-                        y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 60, 
-                        height = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
         self.info_label.place(x = 10, 
                               y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 65 + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
         self.add_product.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')*width - 172, 
                                y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 65 + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
-        self.scroll_bar.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')  * width - 20, 
-                              y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 60)
+    
         self.img_label.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'), 
                              y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'))
         self.info.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'), 
@@ -162,8 +155,19 @@ class EtsiTuotteita:
         try:
             names = self.db[type].tolist()
         except:
-            names = []    
-        return list(set(names))
+            names = []  
+    
+        listy = list(set(names))
+
+        stripped = []
+        for item in listy:
+            stripped.append(item.strip())
+
+        if ' ' in stripped:
+            listy.remove(' ')
+        if '' in stripped:
+            stripped.remove('')    
+        return stripped
     
     def read_db(self, path):
 
@@ -212,9 +216,25 @@ class EtsiTuotteita:
 
     def read_columns(self):
 
-        db_name = self.provider_stringvar.get()
+        if hasattr(self, 'tree'):
+            self.tree.destroy()
+            self.scroll_bar.destroy()
 
-        self.db = pd.read_csv(os.path.join(PATH,'Databases',f'{db_name}.db'))
+        width = UIDimensions.get('MAIN_APP','X')
+        self.tree = Treeview(self.mid_frame)
+        self.scroll_bar = tk.Scrollbar(self.mid_frame, orient="vertical", command=self.tree.yview)
+        
+        self.scroll_bar.place_configure(height= UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
+        self.tree.configure(yscrollcommand = self.scroll_bar.set)
+
+        self.tree.place(x = 10, 
+                        y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 60, 
+                        height = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','TREEVIEW_HEIGHT_ABSOLUTE'))
+        self.scroll_bar.place(x = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')  * width - 20, 
+                              y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','BUTTONS_HEIGHT_ABSOLUTE') + 60)
+    
+        # Read the CSV file with na_filter set to False
+        self.db = pd.read_csv(os.path.join(PATH,'Databases',f'{self.db_name}.db'), na_filter=False)
 
         W = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')* UIDimensions.get('MAIN_APP','X') - 30
 
@@ -238,19 +258,23 @@ class EtsiTuotteita:
             if item == 'price' or item == 'Price':
                 to_be_shown.append('Hinta')                
 
+        
+        column_width = int(W/(len(to_be_shown)))
         self.tree["columns"] = to_be_shown[1:]
         self.tree.heading("#0", text=to_be_shown[0])
 
+        self.tree.column("#0", width = column_width, minwidth = 50)
+
         for column in self.tree['columns']:
             self.tree.heading(column, text = column, anchor = 'center')
-            self.tree.column(column, width= int(W/len(to_be_shown))) 
+            self.tree.column(column, width = column_width, minwidth = 40)
 
         self.tree.bind("<ButtonRelease-1>", lambda event: self.open_image(event))
         self.tree.bind("<Double-1>", lambda event: self.open_url(event)) # Web page open   
 
     def find_children_parent_relations(self, data_rows):
 
-        parent_children = []
+        parent_children = [] 
         has_been_seen = []
 
         for row in data_rows:
@@ -267,9 +291,19 @@ class EtsiTuotteita:
 
         self.clear_treeview()
 
+        if self.provider_stringvar.get() != self.db_name:
+            self.db_name = self.provider_stringvar.get()
+            self.read_columns()
+            self.set_filters()
+            colors = self.find_product_types('color')
+            types = self.find_product_types('type')
+            self.color_search.configure(values = colors)
+            self.type_search.configure(values = types)
+
         dataframe = self.db.sort_values(by = 'name') # must have order for find_children_parent_relations() to work
         
         dataframe = self.filter_dataframe(dataframe)
+
         data_rows = dataframe.to_numpy().tolist()
 
         data_parent_child = self.find_children_parent_relations(data_rows)
@@ -283,6 +317,7 @@ class EtsiTuotteita:
         #        self.tree.insert('', 'end', text = row[0], values = row[1:])  
 
         self.info_label.configure(text = f'{len(data_rows)} tuotetta löytyi.')
+
         return len(data_rows)
 
     def get_search_params(self):
@@ -318,14 +353,11 @@ class EtsiTuotteita:
 
     def clear_treeview(self):   
 
-        for item in self.tree.get_children():
-            self.tree.delete(item)       
+        self.tree.delete(*self.tree.get_children())       
 
     def add_product(self):
 
         rows = self.tree.selection()
-
-        list(self.db.columns)
 
         for row in rows:
 
@@ -335,13 +367,13 @@ class EtsiTuotteita:
             attributes = list(self.db.columns)
 
 #image(self.middle_up_frame, position, index, path, self, side_length = 100, root = self.root, discount = 20, product_data = ['HanaX', '900€', 'Chrome']))
-            datas = {attributes[i]: data[i] for i in range(len(attributes)) if attributes[i] in ('name', 'size', 'color', 'price', 'number', 'webpage')}
+            datas = {attributes[i]: data[i] for i in range(len(attributes)) if attributes[i] in ('name', 'size', 'color', 'price', 'number', 'webpage', 'info')}
 
             img_frame = self.root.content_frame.luo_tarjous.middle_up_frame
             index = len(img_frame.images)
             position = img_frame.positions[index]
 
-            company = self.provider_stringvar.get()
+            company = self.db_name
             path = PATH +f'\\Figures\\{company}\\'
 
             if company == 'Tapwell':
@@ -350,9 +382,27 @@ class EtsiTuotteita:
 
             if company == 'Haven':
 
-                color = datas[1]
-                to_search = [name, f"{datas['name']}_{datas['color']}"]
+                color = datas['color']
+                info = datas['info']
 
+                if not 'H2⁄' in name:
+                    to_search = [name, f'{name}_{color}']
+
+                else:  
+
+                    if 'MIRROR' in name or 'CABINET' in name:
+                        name = name.split(' ')[0]           
+                        add1 = 'CABINET' if 'MIRROR CABINET' in info else 'MIRROR'    
+                        add2 = 'STONE-TOP' if 'STONE TOP' in info else 'PORCELAIN'
+
+                        ADD = f'+{add1}+{add2}'
+                        to_search = [f'{name}{ADD}_{color}']
+                    else:
+                        to_search = [name, f'{name}_{color}']
+
+                self.info.configure(text = info)
+
+            
             for srch in to_search:
                 if os.path.isfile(path+srch+'.png'):
                     path = path+srch+'.png'
@@ -366,9 +416,11 @@ class EtsiTuotteita:
             self.info_label.configure(text = f'{len(rows)} tuotetta lisättiin koriin.')
         else:
             self.info_label.configure(text = f"{datas['name']} lisättiin koriin.")
+
     def open_image(self, event):
    
-        self.img_label.configure(text = '')
+        self.info.configure(text = '')
+        self.img_label.configure(image = '')
         item = self.tree.identify_row(event.y)
         datas = self.tree.item(item, "values")
 
@@ -377,8 +429,9 @@ class EtsiTuotteita:
         
         name = self.tree.item(item, 'text')
 
-        company = self.provider_stringvar.get()
-        path = PATH +f'\\Figures\\{company}\\'
+        company = self.db_name
+
+        path = os.path.join(PATH, 'Figures', company)
 
         if company == 'Tapwell':
 
@@ -387,11 +440,30 @@ class EtsiTuotteita:
         if company == 'Haven':
 
             color = datas[1]
-            to_search = [name, f'{name}_{color}']
+            info = datas[-1]
+
+            if not 'H2⁄' in name:
+                to_search = [name, f'{name}_{color}']
+
+            else:  
+
+                if 'MIRROR' in name or 'CABINET' in name:
+                    name = name.split(' ')[0]           
+                    add1 = 'CABINET' if 'MIRROR CABINET' in info else 'MIRROR'    
+                    add2 = 'STONE-TOP' if 'STONE TOP' in info else 'PORCELAIN'
+
+                    ADD = f'+{add1}+{add2}'
+                    to_search = [f'{name}{ADD}_{color}']
+                else:
+                    to_search = [name, f'{name}_{color}']
+
+            self.info.configure(text = info)
 
         for srch in to_search:
-            if os.path.isfile(path+srch+'.png'):
-                image = Image.open(path+srch+'.png').convert("RGBA")
+
+            figure_path = os.path.join(path,f'{srch}.png')
+            if os.path.isfile(figure_path):
+                image = Image.open(figure_path).convert("RGBA")
                 
                 width, height = image.size
                 aspect_ratio = width / height
@@ -407,7 +479,6 @@ class EtsiTuotteita:
                 self.ctk_image = ctk.CTkImage(light_image=resized_image, dark_image=resized_image, size = (new_width, new_height))
 
                 self.img_label.configure(image = self.ctk_image)
-                #self.img_label.image = self.ctk_image
   
 
     def open_url(self, event):
