@@ -36,5 +36,8 @@
     },
     "STR_UI_TALLENNA_KUVAUS": {
       "FI": "Tallenna\nkuvaus"
+    },
+    "STR_UI_LUO_LASKU": {
+      "FI": "Luo lasku"
     }
   }
