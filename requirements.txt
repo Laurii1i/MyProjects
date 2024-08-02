@@ -1,3 +1,4 @@
 pandas
 customtkinter
 pillow
+python-docx
