@@ -7,6 +7,7 @@ from GlobalAssets.Translator import Translator
 from GlobalAssets.UIDimensions import UIDimensions
 import numpy as np
 from image import *
+from Invoice.InvoiceGenerator import InvoiceGeneratorWord
 
 def clear_frame(frame):
 
@@ -86,7 +87,15 @@ class LuoTarjous():
         self.tallenna.place(x = 0, 
                             y = 3*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_PADY_ABSOLUTE') + 2*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'))
 
+        self.luo_lasku = ctk.CTkButton(self.left_frame, 
+                                      text = Translator.get_string('STR_UI_LUO_LASKU'), 
+                                      font = luo_tarjous_left_font, 
+                                      width = 0.965*(UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_WIDTH_FRACTION') * width), 
+                                      height = 2*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'),
+                                      command = self.generate_invoice)
 
+        self.luo_lasku.place(x = 0, 
+                             y = 4*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_PADY_ABSOLUTE') + 3*UIDimensions.get('DIM_UI_LUO_TARJOUS','LEFT_HEIGHT_ABSOLUTE'))
         # Middle middle frame
 
         text_box_width = 760
@@ -154,6 +163,10 @@ class LuoTarjous():
             # Product image label (large image)
         self.middle_bottom_frame.product_label = tk.Label(self.middle_bottom_frame, bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode])
         #TODO: voisko täs tehä joku self.middle_bottom_frame.product_label.configure(bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])?
+
+    def generate_invoice(self):
+        generator = InvoiceGeneratorWord(self.black_holes)
+        generator.generate_invoice()
 
     def set_layout(self):
 
