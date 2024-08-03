@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import re
+import requests 
+from selenium.webdriver.common.by import By
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH)
@@ -20,6 +22,35 @@ class CommonScraper:
     def remove_non_numbers(self, string: str) -> str:
 
         return re.sub(r'\D', '', string)
+    
+    def product_figure_exists(self, name):
+
+        return os.path.isfile(os.path.join(PATH, 'Figures', self.company_name, f'{name}.png'))
+    
+    def download_image(self, save_name = str, img_src = None, img_path = None):
+
+        if img_path:
+            try:
+                save_path = os.path.join(PATH, 'Figures', self.company_name, f'{save_name}.png')
+                figure = self.driver.find_element(By.XPATH, img_path)
+                img_src = figure.get_attribute("src")
+
+                response = requests.get(img_src)
+
+                if response.status_code == 200:
+                    with open(save_path, 'wb') as file:
+                        file.write(response.content)
+            except:
+                print(f'Figure download for {save_name} failed.')   
+
+        if img_src: 
+            try:
+                response = requests.get(img_src)
+                if response.status_code == 200:
+                    with open(save_path, 'wb') as file:
+                        file.write(response.content)
+            except:
+                print(f'Figure download for {save_name} failed.')                                       
 
     def append_to_dataframe(self):
 
