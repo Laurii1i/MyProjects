@@ -366,7 +366,6 @@ class EtsiTuotteita:
             data.insert(0, name)
             attributes = list(self.db.columns)
 
-#image(self.middle_up_frame, position, index, path, self, side_length = 100, root = self.root, discount = 20, product_data = ['HanaX', '900€', 'Chrome']))
             datas = {attributes[i]: data[i] for i in range(len(attributes)) if attributes[i] in ('name', 'size', 'color', 'price', 'number', 'webpage', 'info')}
 
             img_frame = self.root.content_frame.luo_tarjous.middle_up_frame
@@ -402,6 +401,8 @@ class EtsiTuotteita:
 
                 self.info.configure(text = info)
 
+            if company == 'INR':
+                to_search = [datas['name']]
             
             for srch in to_search:
                 if os.path.isfile(path+srch+'.png'):
@@ -437,6 +438,7 @@ class EtsiTuotteita:
 
             to_search = [datas[3]]
 
+        print(datas)
         if company == 'Haven':
 
             color = datas[1]
@@ -459,6 +461,12 @@ class EtsiTuotteita:
 
             self.info.configure(text = info)
 
+        if company == 'INR':
+            color = datas[1]
+            info = datas[-1]
+            to_search = [name]
+            self.info.configure(text = info)
+            
         for srch in to_search:
 
             figure_path = os.path.join(path,f'{srch}.png')
