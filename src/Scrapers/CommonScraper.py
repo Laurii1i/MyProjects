@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import re
+import requests 
+from selenium.webdriver.common.by import By
 
 PATH = os.path.realpath(__file__)
 PATH = os.path.dirname(PATH)
@@ -16,19 +18,48 @@ class CommonScraper:
         self.scraped_dataframe = None
         self.existing_dataframe = None
 
-
     def remove_non_numbers(self, string: str) -> str:
 
         return re.sub(r'\D', '', string)
+    
+    def remove_no_number_containing_elements(self, lst: list) -> list:
 
-    def append_to_dataframe(self):
+        return [s for s in lst if re.search(r'\d', s)]
+    
+    def extract_numbers_from_string(string: str) -> list:
 
-        if self.scraped_dataframe is None:
-            print('A dataframe has not been scraped into the memory.')
-            return
-        
-        else:
-            pass
+        return [int(num) for num in re.findall(r'\d+', string)]
+    
+    def product_figure_exists(self, name):
+
+        return os.path.isfile(os.path.join(PATH, 'Figures', self.company_name, f'{name}.png'))
+    
+    def download_image(self, save_name = str, img_src = None, img_xpath = None):
+
+        save_path = os.path.join(PATH, 'Figures', self.company_name, f'{save_name}.png')
+        if img_xpath:
+            try:
+                save_path = os.path.join(PATH, 'Figures', self.company_name, f'{save_name}.png')
+                figure = self.driver.find_element(By.XPATH, img_xpath)
+                img_src = figure.get_attribute("src")
+
+                response = requests.get(img_src)
+
+                if response.status_code == 200:
+                    with open(save_path, 'wb') as file:
+                        file.write(response.content)
+            except:
+                print(f'Figure download for {save_name} failed.')   
+
+        if img_src: 
+            try:
+                response = requests.get(img_src)
+                if response.status_code == 200:
+                    with open(save_path, 'wb') as file:
+                        file.write(response.content)
+                print(f'Figure {save_name} downloaded.')        
+            except Exception as e:
+                print(f'Figure download for {save_name} failed. Error message: \n{e}')                                       
 
 
     def overwrite_dataframe(self):
@@ -38,10 +69,18 @@ class CommonScraper:
             return
         
         assert self.company_name != '', "Company name cannot be empty"
-        db_path = os.path.join(PATH, 'Databases', f'{self.company_name}.db')
-        self.scraped_dataframe.to_csv(db_path, index = False)
-        print(f'Dataframe written to {db_path}')
 
+        self.scraped_dataframe.to_csv(self.db_path, index = False)
+        print(f'Dataframe written to {self.db_path}')
+
+    def append_to_database(self, dataframe):
+
+        if self.existing_dataframe is None:
+            self.existing_dataframe = self.load_dataframe()
+
+        new_dataframe = pd.concat([self.existing_dataframe, dataframe], axis=0, ignore_index=True)
+        new_dataframe.to_csv(self.db_path, index = False)
+        
     def look_for_differences(self, scraped_dataframe, existing_dataframe) -> bool:
 
         scraped_names = set(scraped_dataframe['name'])

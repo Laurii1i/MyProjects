@@ -17,6 +17,7 @@ class HavenScraper(CommonScraper):
         super().__init__()
         self.company_name = 'Haven'
         self.website_url = 'https://haven-system.com'
+        self.db_path = os.path.join(PATH, 'Databases', f'{self.company_name}.db')
 
     def scrape(self) -> pd.DataFrame:
 
