@@ -158,8 +158,9 @@ class LuoTarjous():
         for _ in range(5):
             self.middle_bottom_frame.data_labels.append(ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25)))  
 
-        self.middle_bottom_frame.discount_label = ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25))
-
+        self.middle_bottom_frame.discount_label = ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25), text_color = 'light blue')
+        self.middle_bottom_frame.OVH_label = ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25), text_color = 'light yellow')
+        self.middle_bottom_frame.ale_price_label = ctk.CTkLabel(self.middle_bottom_frame, text = '', font = ('Helvetica', 25), text_color = 'light yellow')
             # Product image label (large image)
         self.middle_bottom_frame.product_label = tk.Label(self.middle_bottom_frame, bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"][ctk.AppearanceModeTracker.appearance_mode])
         #TODO: voisko täs tehä joku self.middle_bottom_frame.product_label.configure(bg= ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])?
@@ -420,14 +421,12 @@ class LuoTarjous():
         disloc_x, disloc_y = size+50, 40
 
         prod_data = []
-        order = ('name', 'color', 'size', 'price')
+        order = ('name', 'color', 'size')
 
         for item in order:
             for key, val in image.product_data.items():
                 
                 if item == key:
-                    if item == 'price':
-                        val = val + '€'
                     prod_data.append(val)
                     break
 
@@ -441,8 +440,15 @@ class LuoTarjous():
                 data_label.place(x = disloc_x, y = disloc_y)
                 disloc_y = disloc_y + 30
 
+        OVH = image.product_data['price']
         self.middle_bottom_frame.discount_label.configure(text = f'Alennus {image.discount}%')
         self.middle_bottom_frame.discount_label.place(x = disloc_x, y = 320)
+
+        self.middle_bottom_frame.OVH_label.configure(text = f'OVH {float(OVH)} €')
+        self.middle_bottom_frame.OVH_label.place(x = disloc_x, y = 260)
+
+        self.middle_bottom_frame.ale_price_label.configure(text = f'ALE  {image.discount_price:.1f} €')
+        self.middle_bottom_frame.ale_price_label.place(x = disloc_x, y = 290)
 
         self.description.delete("1.0", tk.END)
         self.description.insert(tk.END, image.description)
@@ -511,10 +517,12 @@ class LuoTarjous():
           
         for image in selected_images:
             image.discount = discount
+            image.discount_price = ((100.0 - float(discount))/100.0) * float(image.product_data['price'])
 
         try:
             if self.on_show_img in selected_images:
                 self.middle_bottom_frame.discount_label.configure(text = f'Alennus {discount}%')
+                self.middle_bottom_frame.ale_price_label.configure(text = f'ALE  {self.on_show_img.discount_price:.1f} €')
         except:
             pass        
         self.top_lvl.destroy()    
@@ -590,14 +598,14 @@ class LuoTarjous():
         
         try:
             color = image.product_data['color']
-            if color in writing:
+            if color in writing and color != ' ':
                 writing = writing.replace(color, '<color>')
         except:
             pass    
 
         try:
             size = image.product_data['size']
-            if size in writing:
+            if size in writing and size != ' ':
                 writing = writing.replace(size, '<size>')
         except:
             pass    

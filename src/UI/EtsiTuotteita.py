@@ -51,7 +51,8 @@ class EtsiTuotteita:
                                         fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])
 
         self.update_but = ctk.CTkButton(self.left_frame, 
-                                        text = Translator.get_string('STR_UI_PAIVITA'), 
+                                        #text = Translator.get_string('STR_UI_PAIVITA'), 
+                                        text = 'Hyödyllinen nappi',
                                         corner_radius = corner_radius, 
                                         height = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_HEIGHT_ABSOLUTE'), 
                                         width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'), 
@@ -59,6 +60,7 @@ class EtsiTuotteita:
         self.info_table = ctk.CTkTextbox(self.left_frame, 
                                          width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'))
 
+        self.info_table.insert(ctk.END, "Jan mitä vittuu me laitetaan tänne")
         dbs = [db.strip('.db') for db in os.listdir(os.path.join(PATH,'Databases')) if db.endswith('.db')]
         self.provider_stringvar = tk.StringVar(value=dbs[0])
         self.provider = ctk.CTkOptionMenu(self.mid_frame, 
@@ -108,6 +110,7 @@ class EtsiTuotteita:
                                  width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_PAD_ABSOLUTE'), 
                                  height = 200,
                                  font = ('Helvetica', 15),
+                                 text = '',
                                  wraplength = 400)
         self.info_label = ctk.CTkLabel(self.mid_frame, text = '', text_color = 'black', font = ('Helvetica', 15))
         root.menu_bar.search_button.configure(command = self.set_layout)

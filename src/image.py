@@ -17,6 +17,8 @@ class image():
         
         self.product_data = product_data
         self.discount = discount
+
+        self.discount_price = ((100.0 - float(discount))/100.0) * float(product_data['price'])
         self.root = root
         self.path = path
         self.parent_layout = parent_layout
@@ -78,10 +80,12 @@ class image():
 
     def set_default_description(self):
 
-        string = ''
+        string = self.product_data['webpage'] + '. '
 
         for key, value in self.product_data.items():
-            if key != 'price' and key != 'number':
+            if key == 'webpage':
+                continue
+            if key != 'price' and key != 'number' and value != ' ':
                 string = string + f'{value}, '
 
         string = string[:-2] + '.'
@@ -194,6 +198,7 @@ class image():
 
          # list containing all the images except the one under dragging
         all_but_self = [image for image in self.frame.images] # @@@@ CHANGED @@@
+        print(all_but_self)
         all_but_self.remove(self)
 
 
