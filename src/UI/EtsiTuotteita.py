@@ -40,11 +40,13 @@ class EtsiTuotteita:
                                        corner_radius=corner_radius, 
                                        width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width, 
                                        height = height)
+        
         self.mid_frame = ctk.CTkFrame(self.content_frame, 
                                       corner_radius=corner_radius, 
                                       width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')*width, 
                                       height = height, 
                                       fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])
+        
         self.right_frame = ctk.CTkFrame(self.content_frame, 
                                         corner_radius=corner_radius, 
                                         width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width, 
@@ -58,6 +60,7 @@ class EtsiTuotteita:
                                         width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'), 
                                         font = etsi_tuotteita_left_font,
                                         command = self.create_own_product)
+        
         self.info_table = ctk.CTkTextbox(self.left_frame, 
                                          width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'))
 

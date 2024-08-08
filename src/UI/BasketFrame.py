@@ -76,4 +76,5 @@ class BasketFrame(ctk.CTkFrame): # Inherits from CTkFrame
                                y = self.position[1] - self.label_h)
         self.title_label.configure(text = name)
         self.black_hole.button.configure(text = name)
+        self.black_hole.resize()
         self.root.unbind('<Button-1>')
