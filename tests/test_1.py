@@ -20,19 +20,19 @@ class TestDataTransformation(unittest.TestCase):
 
     def test_Translator(self):
         ##CORRECT DATA
-        self.assertEqual(Translator.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.FI), 
-                         'Päivitä tietokanta')
-        self.assertEqual(Translator.get_string('STR_UI_PAIVITA_TIETOKANTA', Lang.EN), 
-                         'Update database')
+        self.assertEqual(Translator.get_string('STR_UI_LUO_UUSI_TUOTE', Lang.FI), 
+                         'Luo oma tuote')
+        self.assertEqual(Translator.get_string('STR_UI_LUO_UUSI_TUOTE', Lang.EN), 
+                         'Create a new product')
         self.assertEqual(Translator.get_string('STR_UI_LUO_TARJOUS', Lang.SV), 
                          'Skapa erbjudande')
         
-        self.assertEqual(Translator.get_string('STR_UI_PAIVITA_TIETOKANTA'), 
-                         'Päivitä tietokanta')
+        self.assertEqual(Translator.get_string('STR_UI_LUO_UUSI_TUOTE'), 
+                         'Luo oma tuote')
         
         Translator.set_default_lang(Lang.SV)
-        self.assertEqual(Translator.get_string('STR_UI_PAIVITA_TIETOKANTA'), 
-                         'Uppdatera databas')
+        self.assertEqual(Translator.get_string('STR_UI_LUO_UUSI_TUOTE'), 
+                         'Skapa en ny produkt')
         Translator.set_default_lang(Lang.FI)
 
         ##INCORRECT DATA

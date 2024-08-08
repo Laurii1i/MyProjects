@@ -584,7 +584,7 @@ class LuoTarjous():
     def write_description(self):
 
         image = self.on_show_img
-        path = os.path.join(PATH,'Descriptions', image.product_data['webpage'], image.product_data['name']+'.txt')
+        path = os.path.join(PATH,'Descriptions', image.product_data['company'], image.product_data['name']+'.txt')
 
         writing = self.description.get("1.0", tk.END)
         
