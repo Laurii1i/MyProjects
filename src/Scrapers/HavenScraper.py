@@ -40,7 +40,7 @@ class HavenScraper(CommonScraper):
         existing_images = os.listdir(PATH+'/Figures/Haven')
         existing_images = [fig.strip('.png') for fig in existing_images]
 
-        db_structure = ('name','type','color', 'size', 'price','number','url','webpage', 'info')
+        db_structure = ('name','type','color', 'size', 'price','number','url','company', 'info')
 
         db_dict = {item: [] for item in db_structure}
 
@@ -83,7 +83,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(lighting)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info+f'. Placement: {placement}')
         else:
             print(f'Sivulle {lighting} ei päästy. Response status code {response.status_code}.\n')
@@ -147,7 +147,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(knobs)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(' ')
         else:
             print(f'Sivulle {knobs} ei päästy. Response status code {response.status_code}.\n')
@@ -201,7 +201,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(faucets)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)
             
             colors = ['CHROME','BRASS','MATTE BLACK','COPPER']
@@ -242,7 +242,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(faucets)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)
 
         else:
@@ -301,7 +301,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(interiors)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(' ')
         else:
             print(f'Sivulle {interiors} ei päästy. Response status code {response.status_code}.\n')     
@@ -346,7 +346,7 @@ class HavenScraper(CommonScraper):
                 db_dict['price'].append(price)
                 db_dict['number'].append(' ')
                 db_dict['url'].append(wall_cabinet)
-                db_dict['webpage'].append('Haven')
+                db_dict['company'].append('Haven')
                 db_dict['info'].append(' ')
                 
                 image_src = image.find('img').get('src')
@@ -404,7 +404,7 @@ class HavenScraper(CommonScraper):
                 db_dict['price'].append(price)
                 db_dict['number'].append(' ')
                 db_dict['url'].append(high_cabinet)
-                db_dict['webpage'].append('Haven')
+                db_dict['company'].append('Haven')
                 db_dict['info'].append(' ')
         
                 image_src = image.find('img').get('src')
@@ -472,7 +472,7 @@ class HavenScraper(CommonScraper):
                         db_dict['price'].append(price)
                         db_dict['number'].append(' ')
                         db_dict['url'].append(mirror_cabinet)
-                        db_dict['webpage'].append('Haven')
+                        db_dict['company'].append('Haven')
                         db_dict['info'].append(info)
         
         else:
@@ -552,7 +552,7 @@ class HavenScraper(CommonScraper):
                 db_dict['price'].append(price)
                 db_dict['number'].append(' ')
                 db_dict['url'].append(mirror)
-                db_dict['webpage'].append('Haven')
+                db_dict['company'].append('Haven')
                 db_dict['info'].append(info)
 
         else:
@@ -607,7 +607,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H3_1)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)  
 
             panel = soup.find(class_ = 'BigImages Col2 clearfix')
@@ -635,7 +635,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H3_1)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info) 
 
                     image_src = porce.find('img').get('src')
@@ -698,7 +698,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H3_2)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)  
 
             
@@ -769,7 +769,7 @@ class HavenScraper(CommonScraper):
                         db_dict['price'].append(price)
                         db_dict['number'].append(' ')
                         db_dict['url'].append(H2)
-                        db_dict['webpage'].append('Haven')
+                        db_dict['company'].append('Haven')
                         db_dict['info'].append(info)
 
 
@@ -819,7 +819,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H2_MC)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)  
 
 
@@ -871,7 +871,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(price)
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H2_M)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)  
 
             frame_panel = soup.find(class_ = 'BigImages Col3 clearfix')
@@ -917,7 +917,7 @@ class HavenScraper(CommonScraper):
                     db_dict['price'].append(' ')
                     db_dict['number'].append(' ')
                     db_dict['url'].append(H2_M)
-                    db_dict['webpage'].append('Haven')
+                    db_dict['company'].append('Haven')
                     db_dict['info'].append(info)
         else:
             print(f'Sivulle {H2_M} ei päästy. Response status code {response.status_code}.\n') 

@@ -53,7 +53,7 @@ class INRScraper(CommonScraper):
             print('vittu')    
     def scrape_cabinets(self):
 
-        db_structure = ('name','type','color', 'size', 'price','url','webpage', 'info')
+        db_structure = ('name','type','color', 'size', 'price','url','company', 'info')
         db_dict = {item: [] for item in db_structure}
 
         kaappi = 'https://www.inr.fi/tuotteet/kylpyhuonesailytys/'
@@ -187,7 +187,7 @@ class INRScraper(CommonScraper):
                             db_dict['name'].append(name)
                             db_dict['type'].append('Kahva')
                             db_dict['color'].append(color)
-                            db_dict['webpage'].append('INR')
+                            db_dict['company'].append('INR')
                             db_dict['url'].append(' ')
                             db_dict['size'].append(' ')
                             db_dict['info'].append(' ')
@@ -248,7 +248,7 @@ class INRScraper(CommonScraper):
                     db_dict['name'].append(name)
                     db_dict['type'].append(typpe)
                     db_dict['url'].append(f'{self.website_url}{href}')
-                    db_dict['webpage'].append('INR')
+                    db_dict['company'].append('INR')
                     db_dict['info'].append(info)
 
         db_dict['name'].append('PLUS POWER')
@@ -257,7 +257,7 @@ class INRScraper(CommonScraper):
         db_dict['size'].append(' ')
         db_dict['type'].append('Lisävaruste')
         db_dict['url'].append(' ')
-        db_dict['webpage'].append('INR')
+        db_dict['company'].append('INR')
         db_dict['info'].append('Pistorasia (230V). Pistorasiaa ei ole esiasennettu. Valitse itse sijoitus.')         
         return pd.DataFrame(db_dict)
 
@@ -401,7 +401,7 @@ class INRScraper(CommonScraper):
 
         page = 'https://www.inr.fi/tuotteet/peili-ja-peilikaapit/'
 
-        db_structure = ('name','type','color', 'size', 'price','url','webpage', 'info')
+        db_structure = ('name','type','color', 'size', 'price','url','company', 'info')
         db_dict = {item: [] for item in db_structure}
 
         response  = requests.get(page)
@@ -484,7 +484,7 @@ class INRScraper(CommonScraper):
                     db_dict['info'].append(info)
                     db_dict['url'].append(href)
                     db_dict['color'].append('')
-                    db_dict['webpage'].append('INR')
+                    db_dict['company'].append('INR')
                     db_dict['price'].append(price)
                     db_dict['type'].append('Peili')
 
@@ -569,7 +569,7 @@ class INRScraper(CommonScraper):
                         db_dict['name'].append(name)
                         db_dict['type'].append('Lisävaruste')
                         db_dict['color'].append(' ')
-                        db_dict['webpage'].append('INR')
+                        db_dict['company'].append('INR')
                         db_dict['url'].append(' ')
                         db_dict['size'].append(' ')
                         db_dict['info'].append(' ')
@@ -633,19 +633,19 @@ class INRScraper(CommonScraper):
                         db_dict['name'].append(name)
                         db_dict['type'].append('Peilikaappi')
                         db_dict['url'].append(f'{self.website_url}{href}')
-                        db_dict['webpage'].append('INR')
+                        db_dict['company'].append('INR')
                         db_dict['info'].append(info)
 
         return pd.DataFrame(db_dict)
     
     def scrape_faucets(self):
 
-        webpage = 'https://www.inr.fi/tuotteet/allaskaapit/'
+        url = 'https://www.inr.fi/tuotteet/allaskaapit/'
 
-        db_structure = ('name','type','color', 'size', 'price','url','webpage', 'info')
+        db_structure = ('name','type','color', 'size', 'price','url','company', 'info')
         db_dict = {item: [] for item in db_structure}
 
-        response  = requests.get(webpage)
+        response  = requests.get(url)
 
         if response.status_code == 200:
 

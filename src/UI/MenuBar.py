@@ -16,13 +16,13 @@ class MenuBar():
                                        width = 1*window_width)
         self.menu_frame.pack()
 
-        self.update_button = ctk.CTkButton(self.menu_frame,
+        '''self.update_button = ctk.CTkButton(self.menu_frame,
                                            text = Translator.get_string('STR_UI_PAIVITA_TIETOKANTA'),
                                            font = menu_bar_font,
                                            width = UIDimensions.get('DIM_UI_MENU_BAR','BUTTON_WIDTH_ABSOLUTE'))
         self.update_button.grid(row = 0,
                                 column = 0,
-                                padx = UIDimensions.get('DIM_UI_MENU_BAR','BUTTON_PAD_ABSOLUTE'))
+                                padx = UIDimensions.get('DIM_UI_MENU_BAR','BUTTON_PAD_ABSOLUTE'))'''
         
         self.search_button = ctk.CTkButton(self.menu_frame,
                                            text = Translator.get_string('STR_UI_ETSI_TUOTTEITA'),
