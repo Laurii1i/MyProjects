@@ -64,8 +64,12 @@ class image():
 
     def read_description(self):
         
-        path = os.path.join(PATH,'Descriptions', self.product_data['webpage'], self.product_data['name']+'.txt')
-        print(path)
+        if 'description' in self.product_data.keys():
+            self.description = self.product_data['description'].replace('¤', ',')
+            return
+        
+        path = os.path.join(PATH,'Descriptions', self.product_data['company'], self.product_data['name']+'.txt')
+
         if os.path.isfile(path):
             with open(path, 'r') as file:
                 writing = file.read()
@@ -119,6 +123,8 @@ class image():
 
 
     def on_start_drag(self, event): # Initialize dragging by saving mouse location
+
+        print(self.frame.images)
 
         for frame in self.parent_layout.right_frame.baskets + [self.parent_layout.middle_up_frame]:
             frame.selecting = False # Initialize false selecting variable
@@ -243,8 +249,6 @@ class image():
             self.dragging = False # finally change dragging variable to false
 
     def select_image(self, control_state):
-
-        print(self.index)
 
         self.parent_layout.set_product_image(self) # set large product image to middle_bottom_frame
 

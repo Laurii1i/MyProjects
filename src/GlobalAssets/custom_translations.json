@@ -1,8 +1,8 @@
 {
-    "STR_UI_PAIVITA_TIETOKANTA": {
-      "FI": "Päivitä tietokanta",
-      "SV": "Uppdatera databas",
-      "EN": "Update database"
+    "STR_UI_LUO_UUSI_TUOTE": {
+      "FI": "Luo oma tuote",
+      "SV": "Skapa en ny produkt",
+      "EN": "Create a new product"
     },
     "STR_UI_ETSI_TUOTTEITA": {
       "FI": "Etsi Tuotteita",

@@ -80,6 +80,11 @@ class CommonScraper:
 
         new_dataframe = pd.concat([self.existing_dataframe, dataframe], axis=0, ignore_index=True)
         new_dataframe.to_csv(self.db_path, index = False)
+
+    def add_description_column_to_dataframe(self, dataframe):  
+
+        dataframe['description'] = ' '
+        dataframe.to_csv(os.path.join(self.database_PATH, f'{self.company_name}.db'), index = False)
         
     def look_for_differences(self, scraped_dataframe, existing_dataframe) -> bool:
 
