@@ -40,13 +40,11 @@ class EtsiTuotteita:
                                        corner_radius=corner_radius, 
                                        width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width, 
                                        height = height)
-        
         self.mid_frame = ctk.CTkFrame(self.content_frame, 
                                       corner_radius=corner_radius, 
                                       width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MIDDLE_WIDTH_FRACTION')*width, 
                                       height = height, 
                                       fg_color = ctk.ThemeManager.theme["CustomFrameBackground"]["fg_color"])
-        
         self.right_frame = ctk.CTkFrame(self.content_frame, 
                                         corner_radius=corner_radius, 
                                         width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','RIGHT_WIDTH_FRACTION')*width, 
@@ -60,7 +58,6 @@ class EtsiTuotteita:
                                         width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'), 
                                         font = etsi_tuotteita_left_font,
                                         command = self.create_own_product)
-        
         self.info_table = ctk.CTkTextbox(self.left_frame, 
                                          width = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_WIDTH_FRACTION')*width - 2*UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','LEFT_BUTTON_PAD_ABSOLUTE'))
 
@@ -241,7 +238,6 @@ class EtsiTuotteita:
                                        y = UIDimensions.get('DIM_UI_ETSI_TUOTTEITA','MID_MENU_HEIGTH_ABSOLUTE') + 65)
                 self.size_search.configure(width = length-10)
                 index = index + 1
-
 
     def read_columns(self):
 
@@ -455,8 +451,7 @@ class EtsiTuotteita:
                     break
             else:
                 print('Image not found!')
-                return  
-            print(datas)      
+                return        
             img_frame.images.append(image(img_frame, position = position, index = index, path = file_path, parent_layout = self.root.content_frame.luo_tarjous, side_length = 100, root = self.root, discount = 0, product_data = datas))
         
         if len(rows) != 1:
@@ -483,11 +478,13 @@ class EtsiTuotteita:
         if company == 'Tapwell':
 
             to_search = [datas[3]]
+            info = datas[-1]
+            self.info.configure(text = info)
 
         if company == 'Haven':
 
             color = datas[1]
-            info = datas[-1]
+            info = datas[-2]
 
             if not 'H2⁄' in name:
                 to_search = [name, f'{name}_{color}']
@@ -508,13 +505,18 @@ class EtsiTuotteita:
 
         if company == 'INR':
             color = datas[1]
-            info = datas[-1]
+            info = datas[-2]
             to_search = [name]
             self.info.configure(text = info)
 
         if company == 'Omat':
             fig_name = datas[-1]
             description = datas[-2]
+            color = datas[2]
+            size = datas[3]
+            description = description.replace('¤', ',')
+            description = description.replace('<color>', color)
+            description = description.replace('<size>', size)
             to_search = [fig_name]    
             self.info.configure(text = description.replace('¤', ','))
 
@@ -543,7 +545,6 @@ class EtsiTuotteita:
                 self.ctk_image = ctk.CTkImage(light_image=resized_image, dark_image=resized_image, size = (new_width, new_height))
 
                 self.img_label.configure(image = self.ctk_image)
-  
 
     def open_url(self, event):
 

@@ -8,6 +8,8 @@ from GlobalAssets.UIDimensions import UIDimensions
 import numpy as np
 from image import *
 from Invoice.InvoiceGenerator import InvoiceGeneratorWord
+import pandas as pd
+import re
 
 def clear_frame(frame):
 
@@ -589,27 +591,58 @@ class LuoTarjous():
 
                 basket.title_label.place(x = new_pos[0] + (basket.width/2) - (basket.label_width/2), y = new_pos[1] - basket.label_h)          
 
+    def identify_row_indices_in_dataframe(self, dataframe, product_data):
+
+        name = product_data['name']
+        company = product_data['company']
+
+        condition = (dataframe['name'] == name) & (dataframe['company'] == company)
+
+        indices = dataframe.index[condition]
+
+        return indices
+
     def write_description(self):
 
         image = self.on_show_img
-        path = os.path.join(PATH,'Descriptions', image.product_data['company'], image.product_data['name']+'.txt')
 
-        writing = self.description.get("1.0", tk.END)
+        color = image.product_data['color']
+        color_alts = [color, color.upper(), color.lower(), color.title()]
+
+        company = image.product_data['company']
+        company_alts = [company, company.upper(), company.lower(), company.title()]
+
+        if image.own_product:
+            df = pd.read_csv(os.path.join(PATH, 'Databases', 'Omat.db'))
+        else:    
+            df = pd.read_csv(os.path.join(PATH, 'Databases', f'{company}.db'))
+
+        row_indices = self.identify_row_indices_in_dataframe(df, image.product_data)
+
+        writing = self.description.get("1.0", tk.END).strip()
+
+        for color in color_alts:
+            writing = writing.replace(color, '<color>')
         
-        try:
-            color = image.product_data['color']
-            if color in writing and color != ' ':
-                writing = writing.replace(color, '<color>')
-        except:
-            pass    
+        for company in company_alts:
+            writing = writing.replace(company, '<company>')
+        writing = writing.replace('\n', ' ')
+        writing = writing.replace('  ', ' ')
 
-        try:
+        if company != 'Tapwell':
             size = image.product_data['size']
-            if size in writing and size != ' ':
-                writing = writing.replace(size, '<size>')
-        except:
-            pass    
+            writing = writing.replace(size, '<size>')
 
-        with open(path, 'w') as file:
-            file.write(writing)
-        image.description = self.description.get("1.0", tk.END)
+        for row_index in row_indices:
+            df.at[row_index, 'description'] = writing
+        
+        # Save the updated DataFrame back to the CSV file
+
+        if image.own_product:
+            df.to_csv(os.path.join(PATH, 'Databases', "Omat.db"), index=False)
+        else:    
+            df.to_csv(os.path.join(PATH, 'Databases', f"{image.product_data['company']}.db"), index=False)
+
+        image.description = writing   
+        
+        
