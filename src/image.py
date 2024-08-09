@@ -29,6 +29,11 @@ class image():
         self.on_show = False # Variable indicating if this image is shown in middle_bottom_frame
         self.original_image = Image.open(path).convert("RGBA")
 
+        if not 'info' in product_data.keys():
+            self.own_product = True
+        else:
+            self.own_product = False    
+
         original_width, original_height =  self.original_image.size
         aspect_ratio = original_width/original_height
         if aspect_ratio > 1: # if figure is wider than higher
@@ -65,29 +70,24 @@ class image():
     def read_description(self):
         
         if 'description' in self.product_data.keys():
-            self.description = self.product_data['description'].replace('¤', ',')
-            return
-        
-        path = os.path.join(PATH,'Descriptions', self.product_data['company'], self.product_data['name']+'.txt')
+            if self.product_data['description'] == ' ':
+                self.set_default_description()
+                return
+            else:    
 
-        if os.path.isfile(path):
-            with open(path, 'r') as file:
-                writing = file.read()
-                if '<color>' in writing:
-                    writing = writing.replace('<color>', self.product_data['color'])
-                if '<size>' in writing:
-                    writing = writing.replace('<size>', self.product_data['size'])
-
-                self.description = writing    
-        else:
-            self.set_default_description()        
-
+                description = str(self.product_data['description'])
+                description = description.replace('¤', ',')
+                description = description.replace('<color>', self.product_data['color'])
+                description = description.replace('<size>', self.product_data['size'])
+   
+        self.description = description
+    
     def set_default_description(self):
 
-        string = self.product_data['webpage'] + '. '
+        string = self.product_data['company'] + '. '
 
         for key, value in self.product_data.items():
-            if key == 'webpage':
+            if key == 'company':
                 continue
             if key != 'price' and key != 'number' and value != ' ':
                 string = string + f'{value}, '
@@ -123,8 +123,6 @@ class image():
 
 
     def on_start_drag(self, event): # Initialize dragging by saving mouse location
-
-        print(self.frame.images)
 
         for frame in self.parent_layout.right_frame.baskets + [self.parent_layout.middle_up_frame]:
             frame.selecting = False # Initialize false selecting variable
@@ -204,7 +202,6 @@ class image():
 
          # list containing all the images except the one under dragging
         all_but_self = [image for image in self.frame.images] # @@@@ CHANGED @@@
-        print(all_but_self)
         all_but_self.remove(self)
 
 
